@@ -1,0 +1,10 @@
+# Binaries
+bin/
+int/
+
+# Visual Studio cache/options directory
+.vs/
+
+# Personal settings
+Pear.sln.DotSettings
+Pear.sln.DotSettings.user

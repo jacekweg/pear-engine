@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\application.hpp" />
+    <ClInclude Include="lib\miniaudio\miniaudio.h" />
+    <ClInclude Include="lib\stb\stb_image.h" />
+    <ClInclude Include="src\audio\audio.hpp" />
+    <ClInclude Include="src\audio\sound.hpp" />
+    <ClInclude Include="src\controller.hpp" />
+    <ClInclude Include="src\events\event_controller.hpp" />
+    <ClInclude Include="src\events\event.hpp" />
+    <ClInclude Include="src\graphics\camera.hpp" />
+    <ClInclude Include="src\graphics\lighting\lighting.hpp" />
+    <ClInclude Include="src\graphics\particles\particles.hpp" />
+    <ClInclude Include="src\graphics\texture.hpp" />
+    <ClInclude Include="src\gui\imgui_instance.hpp" />
+    <ClInclude Include="src\input\keyboard_input.hpp" />
+    <ClInclude Include="src\input\mouse_input.hpp" />
+    <ClInclude Include="src\graphics\index_buffer.hpp" />
+    <ClInclude Include="src\commands.hpp" />
+    <ClInclude Include="src\graphics\shader.hpp" />
+    <ClInclude Include="src\graphics\vertex_array.hpp" />
+    <ClInclude Include="src\graphics\vertex_buffer.hpp" />
+    <ClInclude Include="src\physics\aabb.hpp" />
+    <ClInclude Include="src\physics\collider.hpp" />
+    <ClInclude Include="src\physics\collision_object.hpp" />
+    <ClInclude Include="src\physics\physics_object.hpp" />
+    <ClInclude Include="src\physics\physics_space.hpp" />
+    <ClInclude Include="src\physics\solver.hpp" />
+    <ClInclude Include="src\utils\random.hpp" />
+    <ClInclude Include="src\utils\logging.hpp" />
+    <ClInclude Include="src\pch.hpp" />
+    <ClInclude Include="include\pear.hpp" />
+    <ClInclude Include="src\start.hpp" />
+    <ClInclude Include="src\gui\window.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib\miniaudio\miniaudio.cpp" />
+    <ClCompile Include="lib\stb\std_image.cpp" />
+    <ClCompile Include="src\audio\audio.cpp" />
+    <ClCompile Include="src\audio\sound.cpp" />
+    <ClCompile Include="src\controller.cpp" />
+    <ClCompile Include="src\events\event_controller.cpp" />
+    <ClCompile Include="src\graphics\camera.cpp" />
+    <ClCompile Include="src\graphics\lighting\lighting.cpp" />
+    <ClCompile Include="src\graphics\particles\particles.cpp" />
+    <ClCompile Include="src\graphics\texture.cpp" />
+    <ClCompile Include="src\gui\imgui_instance.cpp" />
+    <ClCompile Include="src\input\keyboard_input.cpp" />
+    <ClCompile Include="src\input\mouse_input.cpp" />
+    <ClCompile Include="src\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\graphics\index_buffer.cpp" />
+    <ClCompile Include="src\commands.cpp" />
+    <ClCompile Include="src\graphics\shader.cpp" />
+    <ClCompile Include="src\graphics\vertex_array.cpp" />
+    <ClCompile Include="src\graphics\vertex_buffer.cpp" />
+    <ClCompile Include="src\physics\aabb.cpp" />
+    <ClCompile Include="src\physics\collider.cpp" />
+    <ClCompile Include="src\physics\collision_object.cpp" />
+    <ClCompile Include="src\physics\physics_space.cpp" />
+    <ClCompile Include="src\physics\solver.cpp" />
+    <ClCompile Include="src\gui\window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="lib\glad\glad.vcxproj">
+      <Project>{f551b975-72d6-47d6-a5b9-7c194041556d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="lib\glfw\glfw.vcxproj">
+      <Project>{ebe4acf5-958b-4746-b2e2-6a68ca636052}</Project>
+    </ProjectReference>
+    <ProjectReference Include="lib\imgui\imgui.vcxproj">
+      <Project>{c1b2484b-dd05-472a-ac6f-5e4c5f2bc8da}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{5931abf7-197a-4e93-91cd-ad768613e33e}</ProjectGuid>
+    <RootNamespace>Pear</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\bin\Pear-Release\</OutDir>
+    <IntDir>..\int\Pear-Release\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
+    <PublicIncludeDirectories>$(ProjectDir)lib\glfw\include;$(ProjectDir)lib\miniaudio;</PublicIncludeDirectories>
+    <AllProjectIncludesArePublic>false</AllProjectIncludesArePublic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)bin\Pear-Debug\</OutDir>
+    <IntDir>$(SolutionDir)int\Pear-Debug\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
+    <PublicIncludeDirectories>$(ProjectDir)lib\glfw\include;</PublicIncludeDirectories>
+    <AllProjectIncludesArePublic>false</AllProjectIncludesArePublic>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_IMGUI;GLFW_INCLUDE_NONE;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>lib\miniaudio;lib\stb;lib\glm;lib\glfw\include;lib\imgui;lib\glad\include;src;$(SolutionDir)App\src;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_IMGUI;GLFW_INCLUDE_NONE;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>lib\miniaudio;lib\stb;lib\glm;lib\glfw\include;lib\imgui;lib\glad\include;src;$(SolutionDir)App\src;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
