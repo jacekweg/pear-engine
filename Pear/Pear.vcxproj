@@ -31,7 +31,7 @@
     <ClInclude Include="src\graphics\shader.hpp" />
     <ClInclude Include="src\graphics\vertex_array.hpp" />
     <ClInclude Include="src\graphics\vertex_buffer.hpp" />
-    <ClInclude Include="src\physics\aabb.hpp" />
+    <ClInclude Include="src\physics\rectangle.hpp" />
     <ClInclude Include="src\physics\collider.hpp" />
     <ClInclude Include="src\physics\collision_object.hpp" />
     <ClInclude Include="src\physics\physics_object.hpp" />
@@ -67,7 +67,7 @@
     <ClCompile Include="src\graphics\shader.cpp" />
     <ClCompile Include="src\graphics\vertex_array.cpp" />
     <ClCompile Include="src\graphics\vertex_buffer.cpp" />
-    <ClCompile Include="src\physics\aabb.cpp" />
+    <ClCompile Include="src\physics\rectangle.cpp" />
     <ClCompile Include="src\physics\collider.cpp" />
     <ClCompile Include="src\physics\collision_object.cpp" />
     <ClCompile Include="src\physics\physics_space.cpp" />

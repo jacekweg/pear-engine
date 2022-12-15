@@ -13,7 +13,8 @@ namespace Pear
 
 	struct Transform
 	{
-		glm::vec2 position, scale;
+		glm::vec2 position{}, scale{};
+		float rotation{};
 	};
 
 	class Collider

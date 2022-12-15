@@ -13,8 +13,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{49214ed5-20f2-4065-a98f-b39d306003bd}</ProjectGuid>
-    <RootNamespace>App</RootNamespace>
+    <ProjectGuid>{436a39f6-b690-4531-b322-c16dd5ec719f}</ProjectGuid>
+    <RootNamespace>Demo</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -43,13 +43,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)bin\App-Release\</OutDir>
-    <IntDir>$(SolutionDir)int\App-Release\</IntDir>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)bin\App-Debug\</OutDir>
-    <IntDir>$(SolutionDir)int\App-Debug\</IntDir>
+    <OutDir>$(SolutionDir)bin\Demo-Debug\</OutDir>
+    <IntDir>$(SolutionDir)int\Demo-Debug\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)bin\Demo-Release\</OutDir>
+    <IntDir>$(SolutionDir)int\Demo-Release\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -57,20 +57,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLFW_INCLUDE_NONE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Pear\lib\glfw\include;$(SolutionDir)Pear\lib\glm;$(SolutionDir)Pear\lib\miniaudio;$(SolutionDir)Pear\src;$(SolutionDir)Pear\lib\glad\include;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Pear\lib\glfw\include;$(SolutionDir)Pear\lib\glm;$(SolutionDir)Pear\lib\miniaudio;$(SolutionDir)Pear\src;$(SolutionDir)Pear\lib\glad\include;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreAllDefaultLibraries>
-      </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>libcmtd.lib;</IgnoreSpecificDefaultLibraries>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ProjectReference>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
-    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -80,8 +74,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLFW_INCLUDE_NONE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Pear\lib\glfw\include;$(SolutionDir)Pear\lib\glm;$(SolutionDir)Pear\lib\miniaudio;$(SolutionDir)Pear\src;$(SolutionDir)Pear\lib\glad\include;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Pear\lib\glfw\include;$(SolutionDir)Pear\lib\glm;$(SolutionDir)Pear\lib\miniaudio;$(SolutionDir)Pear\src;$(SolutionDir)Pear\lib\glad\include;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -89,20 +83,17 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <ProjectReference>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
-    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\user_app.cpp" />
+    <ClCompile Include="src\demo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\demo.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pear\Pear.vcxproj">
       <Project>{5931abf7-197a-4e93-91cd-ad768613e33e}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\user_app.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\fragment.glsl" />
@@ -114,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\alpha.png" />
-    <Image Include="res\textures\checkerboard.png" />
+    <Image Include="res\textures\test.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\audio\background.mp3" />

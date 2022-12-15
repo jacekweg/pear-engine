@@ -30,6 +30,9 @@ namespace Pear
 		[[nodiscard]] float GetTimeStep() const { return this->time_step; }
 		void SetTimeStep(const float new_time_step) { this->time_step = new_time_step; }
 
+		[[nodiscard]] bool GetIsControllable() const { return this->is_controllable; }
+		void SetIsControllable(bool new_is_controllable);
+
 		[[nodiscard]] const glm::vec3& GetPosition() const { return this->position; }
 		void SetPosition(const glm::vec3& new_position) { this->position = new_position; RecalculateViewMatrix(); }
 
@@ -44,11 +47,10 @@ namespace Pear
 	private:
 		float aspect_ratio;
 		float rotation = 0.0f;
-		float zoom = 3.0f; // was 1.0f
+		float zoom = 2.5f; // was 1.0f
 
 		float time_step = 0.0f;
 
-		float rotation_speed = 100.0f;
 		float transform_speed = 2.0f;
 
 		glm::vec3 position = { 0.0f, 0.0f, 0.0f };
@@ -58,6 +60,6 @@ namespace Pear
 		glm::mat4 view_projection_matrix{};
 
 		bool move_up{}, move_down{}, move_left{}, move_right{};
-		bool rotate_right{}, rotate_left{};
+		bool is_controllable{};
 	};
 }

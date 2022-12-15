@@ -96,7 +96,7 @@
     <ClInclude Include="src\physics\physics_object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\physics\aabb.hpp">
+    <ClInclude Include="src\physics\rectangle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\lighting\lighting.hpp">
@@ -173,7 +173,7 @@
     <ClCompile Include="src\physics\collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\physics\aabb.cpp">
+    <ClCompile Include="src\physics\rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\lighting\lighting.cpp">

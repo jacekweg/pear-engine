@@ -16,13 +16,13 @@ namespace Pear
 			EventController::FireEvent(EventType::WindowClosed, { .b = true });
 		}
 
-		LOG("Key pressed")
+		//LOG("Key pressed")
 		return true;
 	}
 
 	bool KeyboardInput::KeyReleasedCallback(const EventData data)
 	{
-		LOG("Key released")
+		//LOG("Key released")
 		return true;
 	}
 }

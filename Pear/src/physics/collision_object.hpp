@@ -24,20 +24,22 @@ namespace Pear
 	class CollisionObject
 	{
 	public:
+		typedef std::function<void(const std::shared_ptr<CollisionObject>& collision_object)> CollisionFunc;
+
 		[[nodiscard]] bool GetIsTrigger() const;
 		void SetIsTrigger(bool new_is_trigger);
 
 		[[nodiscard]] bool GetIsStatic() const;
 		void SetIsStatic(bool new_is_static);
 
-		[[nodiscard]] bool GetIsMovable() const { return this->is_movable; }
-		void SetIsMovable(bool movable);
+		[[nodiscard]] bool GetIsControllable() const { return this->is_controllable; }
+		void SetIsControllable(bool controllable);
 
 		[[nodiscard]] Transform GetTransform() const;
 		void SetTransform(const Transform& new_transform);
 
-		[[nodiscard]] std::function<void(const std::shared_ptr<CollisionObject>& collision_object)> GetOnCollisionCallback();
-		void SetOnCollisionCallback(const std::function<void(const std::shared_ptr<CollisionObject>& collision_object)>& new_callback);
+		[[nodiscard]] CollisionFunc GetOnCollisionCallback();
+		void SetOnCollisionCallback(const CollisionFunc& new_callback);
 
 		void CollisionCallback(const std::shared_ptr<CollisionObject>& collision_object) const;
 
@@ -63,6 +65,9 @@ namespace Pear
 		[[nodiscard]] bool GetIsKinematic() const;
 		void SetIsKinematic(bool new_is_kinematic);
 
+		[[nodiscard]] float GetRotation() const;
+		void SetRotation(float new_rotation);
+
 		void UpdatePosition(float time_step);
 
 		bool OnKeyPressedCallback(EventData data);
@@ -80,17 +85,16 @@ namespace Pear
 		bool is_static{};
 		bool is_trigger{};
 		bool is_kinematic{};
-		bool is_movable{};
+		bool is_controllable{};
 
 		Transform transform{};
 		glm::vec2 prev_pos{};
 		CollisionPoints collision_info{};
 
 		bool move_up{}, move_down{}, move_left{}, move_right{};
-		float transform_speed = 2.0f;
 
 		std::string name;
 
-		std::function<void(const std::shared_ptr<CollisionObject>& collision_object)> collision_callback;
+		CollisionFunc collision_callback;
 	};
 }

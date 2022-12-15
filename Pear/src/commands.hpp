@@ -19,8 +19,8 @@ namespace Pear
 		static void Start();
 		static void End();
 
-		static void StartScene(Camera& camera, float new_time_step);
-		static void EndScene();
+		static void StartFrame(Camera& camera, float new_time_step);
+		static void EndFrame();
 
 		static bool SetViewportCallback(EventData data);
 
@@ -41,10 +41,18 @@ namespace Pear
 		static void DrawShadowRectangle(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color, float rotation);
 		static void DrawShadowRectangle(const glm::vec3& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture, float rotation);
 
-		static std::shared_ptr<CollisionObject> CreatePhysicsRectangle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color,
+		static std::shared_ptr<CollisionObject> CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color,
 			const glm::vec2& force, float restitution = 0.5f, float slow_down_factor = 1.0f, bool has_shadow = true, bool is_kinematic = true);
-		static std::shared_ptr<CollisionObject> CreatePhysicsRectangle(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture,
+		static std::shared_ptr<CollisionObject> CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture,
 			const glm::vec2& force, float restitution = 0.5f, float slow_down_factor = 1.0f, bool has_shadow = true, bool is_kinematic = true);
+		static void RemovePhysicsObject(const std::shared_ptr<CollisionObject>& object);
+
+		static std::shared_ptr<CollisionObject> CreateTrigger(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color, bool has_shadow = true);
+		static std::shared_ptr<CollisionObject> CreateTrigger(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture, bool has_shadow = true);
+		static void RemoveTrigger(const std::shared_ptr<CollisionObject>& trigger);
+
+		static std::shared_ptr<CollisionObject> CreatePlayer(const glm::vec2& size, const glm::vec4& color, float slow_down_factor = 0.5f, bool has_shadow = true);
+		static std::shared_ptr<CollisionObject> CreatePlayer(const glm::vec2& size, const std::shared_ptr<Texture>& texture, float slow_down_factor = 0.5f, bool has_shadow = true);
 
 		static std::unique_ptr<Sound> LoadSoundFromFile(const std::string& path);
 		static std::shared_ptr<Texture> LoadTextureFromFile(const std::string& path);

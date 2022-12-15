@@ -39,7 +39,7 @@ namespace Pear
 	{
         auto sound2 = new ma_sound;
         if (const ma_result result = ma_sound_init_from_file(&sound_engine, path.c_str(),
-            0, nullptr, nullptr, sound2);
+            MA_SOUND_FLAG_ASYNC, nullptr, nullptr, sound2);
             result != MA_SUCCESS)
         {
             ASSERT(false, "Error in while initializing sound from file")

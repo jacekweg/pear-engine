@@ -28,10 +28,10 @@ namespace Pear
 		this->is_static = new_is_static;
 	}
 
-	void CollisionObject::SetIsMovable(const bool movable)
+	void CollisionObject::SetIsControllable(const bool controllable)
 	{
 		this->name = std::to_string(reinterpret_cast<uint64_t>(this));
-		if (movable)
+		if (controllable)
 		{
 			EventController::SubscribeToEvent(EventType::KeyPressed, this, &CollisionObject::OnKeyPressedCallback, "ColKeyPressed" + this->name);
 			EventController::SubscribeToEvent(EventType::KeyReleased, this, &CollisionObject::OnKeyReleasedCallback, "ColKeyReleased" + this->name);
@@ -42,7 +42,7 @@ namespace Pear
 			EventController::UnsubscribeFromEvent(EventType::KeyReleased, "ColKeyReleased" + this->name);
 		}
 
-		this->is_movable = movable;
+		this->is_controllable = controllable;
 	}
 
 	Transform CollisionObject::GetTransform() const
@@ -55,12 +55,12 @@ namespace Pear
 		this->transform = new_transform;
 	}
 
-	std::function<void(const std::shared_ptr<CollisionObject>& collision_object)> CollisionObject::GetOnCollisionCallback()
+	CollisionObject::CollisionFunc CollisionObject::GetOnCollisionCallback()
 	{
 		return this->collision_callback;
 	}
 
-	void CollisionObject::SetOnCollisionCallback(const std::function<void(const std::shared_ptr<CollisionObject>& collision_object)>& new_callback)
+	void CollisionObject::SetOnCollisionCallback(const CollisionFunc& new_callback)
 	{
 		this->collision_callback = new_callback;
 	}
@@ -88,7 +88,7 @@ namespace Pear
 
 	void CollisionObject::SetPosition(const glm::vec2& new_position)
 	{
-		if (length(new_position - this->transform.position) < MOVE_EPSILON && !is_movable)
+		if (length(new_position - this->transform.position) < MOVE_EPSILON && !is_controllable)
 			return;
 		if (this->is_kinematic)
 		{
@@ -153,6 +153,16 @@ namespace Pear
 		this->is_kinematic = new_is_kinematic;
 	}
 
+	float CollisionObject::GetRotation() const
+	{
+		return this->transform.rotation;
+	}
+
+	void CollisionObject::SetRotation(const float new_rotation)
+	{
+		this->transform.rotation = new_rotation;
+	}
+
 	void CollisionObject::UpdatePosition(const float time_step)
 	{
 		if (this->is_kinematic)
@@ -181,16 +191,16 @@ namespace Pear
 	{
 		switch (data.i32[0])
 		{
-		case GLFW_KEY_UP:
+		case GLFW_KEY_W:
 			this->move_up = true;
 			break;
-		case GLFW_KEY_DOWN:
+		case GLFW_KEY_S:
 			this->move_down = true;
 			break;
-		case GLFW_KEY_LEFT:
+		case GLFW_KEY_A:
 			this->move_left = true;
 			break;
-		case GLFW_KEY_RIGHT:
+		case GLFW_KEY_D:
 			this->move_right = true;
 			break;
 		default:
@@ -204,16 +214,16 @@ namespace Pear
 	{
 		switch (data.i32[0])
 		{
-		case GLFW_KEY_UP:
+		case GLFW_KEY_W:
 			this->move_up = false;
 			break;
-		case GLFW_KEY_DOWN:
+		case GLFW_KEY_S:
 			this->move_down = false;
 			break;
-		case GLFW_KEY_LEFT:
+		case GLFW_KEY_A:
 			this->move_left = false;
 			break;
-		case GLFW_KEY_RIGHT:
+		case GLFW_KEY_D:
 			this->move_right = false;
 			break;
 		default:

@@ -18,11 +18,9 @@ public:
 private:
 	Pear::Camera camera{};
 
-	std::shared_ptr<Pear::Texture> checker_texture{};
-	std::shared_ptr<Pear::Texture> alpha_texture{};
+	std::shared_ptr<Pear::Texture> checker_texture{}, alpha_texture{};
 
-	std::unique_ptr<Pear::Sound> short_sound{};
-	std::unique_ptr<Pear::Sound> background_sound{};
+	std::unique_ptr<Pear::Sound> short_sound{}, background_sound{};
 
 	std::shared_ptr<Pear::CollisionObject> movable{};
 };

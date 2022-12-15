@@ -20,7 +20,7 @@ namespace Pear
                 continue;
 
             // Calculate restitution
-            const float e = std::min(body_a->GetRestitution(), body_b->GetRestitution());
+            const float e = glm::min(body_a->GetRestitution(), body_b->GetRestitution());
 
             // Calculate impulse scalar
             const float j = -(1.0f + e) * velocity_along_normal;
@@ -30,14 +30,14 @@ namespace Pear
             if (body_a->GetIsKinematic())
                 body_a->SetVelocity(body_a->GetVelocity() - impulse);
 
-            if (!body_a->GetIsKinematic() && !body_b->GetIsMovable())
+            if (!body_a->GetIsKinematic() && !body_b->GetIsControllable())
                 body_b->SetPosition(body_b->GetPreviousPosition());
 
             // Apply impulse to body B
             if (body_b->GetIsKinematic())
                 body_b->SetVelocity(body_b->GetVelocity() + impulse);
 
-            if (!body_b->GetIsKinematic() && !body_a->GetIsMovable())
+            if (!body_b->GetIsKinematic() && !body_a->GetIsControllable())
                 body_a->SetPosition(body_a->GetPreviousPosition());
 
             // Calculate the amount of penetration/separation
@@ -47,11 +47,11 @@ namespace Pear
             const glm::vec2 separation = penetration * collision_info.normal;
 
             // Resolve penetration/separation for body A
-            if (body_a->GetIsMovable())
+            if (body_a->GetIsControllable())
                 body_a->SetPosition(body_a->GetPosition() - separation);
 
             // Resolve penetration/separation for body B
-            if (body_b->GetIsMovable())
+            if (body_b->GetIsControllable())
                 body_b->SetPosition(body_b->GetPosition() + separation);
 		}
 	}

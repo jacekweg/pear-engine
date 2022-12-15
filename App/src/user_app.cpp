@@ -9,59 +9,66 @@ UserApp::UserApp()
 	Pear::Commands::SetWindowName("My app");
 	Pear::Commands::ChangeWindowSize(2560, 1600);
 
+	this->camera.SetIsControllable(true);
+
 	this->checker_texture = Pear::Commands::LoadTextureFromFile("res/textures/test.png");
 	this->alpha_texture = Pear::Commands::LoadTextureFromFile("res/textures/alpha.png");
 
 
-	Pear::Commands::CreatePhysicsRectangle(
+	Pear::Commands::CreatePhysicsObject(
 		{ 2.5f, -2.0f },
-		{ 2.0f, 0.5f }, 
+		{ 0.5f, 0.5f }, 
 		{ 0.43f, 0.54f, 0.56f, 1.0f },
 		{ 0.0f, 0.0f },
-		0.0f,
+		1.0f,
 		0.0f,
 		false,
-		false
+		true
 		);
 
-	Pear::Commands::CreatePhysicsRectangle(
+	Pear::Commands::CreatePhysicsObject(
 		{ 3.5f, 0.5f },
 		{ 0.5f, 0.5f },
 		{ 0.43f, 0.54f, 0.56f, 1.0f },
 		{ 0.0f, 0.0f },
-		0.0f,
+		1.0f,
 		0.0f,
 		false,
 		false
 	);
 
-	Pear::Commands::CreatePhysicsRectangle(
+	Pear::Commands::CreatePhysicsObject(
 		{ 2.5f, 3.0f },
 		{ 0.4f, 0.4f },
 		{ 0.43f, 0.54f, 0.56f, 1.0f },
 		{ 0.0f, 0.0f },
-		0.1f,
-		0.99f
+		0.3f,
+		1.0f
 	);
 
-	const auto test= Pear::Commands::CreatePhysicsRectangle(
+	const auto test= Pear::Commands::CreatePhysicsObject(
 		{ 2.5f, 1.5f },
 		{ 0.5f, 0.5f },
-		{ 0.43f, 0.54f, 0.56f, 1.0f },
-		{ 0.0f, -0.5f },
+		{ 0.83f, 0.54f, 0.56f, 1.0f },
+		{ 0.0f, -1.0f },
 		1.0f,
-		0.9f
+		1.0f
 	);
+	test->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& obj)
+		{
+			obj->SetAcceleration(-obj->GetAcceleration() * 0.5f);
+		});
 
-	movable = Pear::Commands::CreatePhysicsRectangle(
-		{ 0.0f, 1.0f },
-		{ 0.5f, 0.5f },
-		this->checker_texture,
-		{ 0.0f, 0.0f },
-		1.0f,
-		0.8f,
-		true);
-	movable->SetIsMovable(true);
+	//movable = Pear::Commands::CreatePhysicsObject(
+	//	{ 0.0f, 1.0f },
+	//	{ 0.5f, 0.5f },
+	//	this->checker_texture,
+	//	{ 0.0f, 0.0f },
+	//	1.0f,
+	//	0.5f,
+	//	true
+	//);
+	//movable->SetIsControllable(false);
 
 	this->short_sound = Pear::Commands::LoadSoundFromFile("res/audio/short.mp3");
 	this->background_sound = Pear::Commands::LoadSoundFromFile("res/audio/background.mp3");
@@ -87,10 +94,11 @@ void UserApp::OnUpdate(const float time_step)
 
 	static float time = 0.0f;
 
-	Commands::StartScene(this->camera, time_step);
+	Commands::StartFrame(this->camera, time_step);
 	time += time_step;
 
 	Commands::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+
 
 	Commands::DrawShadowRectangle(
 		{ 2.0f * -glm::cos(time) + 5.0f, -0.5f, 0.0f },
@@ -119,18 +127,41 @@ void UserApp::OnUpdate(const float time_step)
 		);
 	}
 
-	Commands::DrawParticle({
-		.position = {glm::cos(time) - 2.5f, glm::sin(time) + 0.5f},
-		.velocity = {0.0f, 0.2f},
-		.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
-		.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
-		.start_size = { 0.2f, 0.2f },
-		.end_size = {0.1f, 0.1f},
-		.rotation = 0.5f,
-		.life_time = 3.0f
-		});
+	//Commands::DrawParticle({
+	//	.position = {glm::cos(time) - 2.5f, glm::sin(time) + 0.5f},
+	//	.velocity = {0.0f, 0.2f},
+	//	.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
+	//	.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
+	//	.start_size = { 0.2f, 0.2f },
+	//	.end_size = {0.1f, 0.1f},
+	//	.rotation = 0.5f,
+	//	.life_time = 3.0f
+	//	});
 
-	Commands::EndScene();
+	//Commands::DrawParticle({
+	//.position = {-2.5f, 0.5f},
+	//.velocity = {0.0f, 0.5f},
+	//.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
+	//.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
+	//.start_size = { 0.2f, 0.2f },
+	//.end_size = {0.1f, 0.1f},
+	//.rotation = 0.5f,
+	//.life_time = 3.0f
+	//	});
+
+
+	Commands::DrawParticle({
+	.position = {-5.5f, 0.5f},
+	.velocity = {3.0f, 0.0f},
+	.start_color = {0.96f, 0.91f, 0.22f, 1.0f},
+	.end_color = { 0.21f, 0.48f, 0.65f, 1.0f },
+	.start_size = { 0.3f, 0.3f },
+	.end_size = {0.1f, 0.1f},
+	.rotation = 0.5f,
+	.life_time = 2.0f
+	});
+
+	Commands::EndFrame();
 }
 
 bool UserApp::SoundPlayCallback(const Pear::EventData data) const

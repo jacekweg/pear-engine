@@ -94,7 +94,7 @@ namespace Pear
 
 		for (const auto& object : this->objects)
 		{
-			if (object->GetIsMovable())
+			if (object->GetIsControllable())
 				object->UpdatePosition(time_step);
 		}
 
@@ -117,7 +117,7 @@ namespace Pear
 				glm::vec2 pos = object->GetPosition() + object->GetVelocity() * time_step;
 				object->SetPosition(pos);
 
-				object->SetForce({ 0, 0 });
+				object->SetForce({ 0.0f, 0.0f });
 		}
 	}
 

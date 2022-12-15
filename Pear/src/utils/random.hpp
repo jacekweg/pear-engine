@@ -8,17 +8,19 @@ namespace Pear
 	public:
 		static void Init()
 		{
-			random_engine.seed(std::random_device()());
+			std::random_device os_seed;
+			const uint_least32_t seed = os_seed();
+			engine.seed(seed);
 		}
 
 		static float Generate()
 		{
 			/* Generate random number between 0 and 1 */
-			return static_cast<float>(distribution(random_engine)) / static_cast<float>(std::numeric_limits<uint32_t>::max());
+			return static_cast<float>(distribution(engine)) / static_cast<float>(std::numeric_limits<uint32_t>::max());
 		}
 
 	private:
-		inline static std::mt19937 random_engine;
-		inline static std::uniform_int_distribution<std::mt19937::result_type> distribution;
+		inline static std::mt19937 engine;
+		inline static std::uniform_int_distribution<uint32_t> distribution;
 	};
 }

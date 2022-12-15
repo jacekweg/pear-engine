@@ -15,16 +15,13 @@ namespace Pear
 	{
 		this->view_projection_matrix = this->projection_matrix * this->view_matrix;
 
-		EventController::SubscribeToEvent(EventType::KeyPressed, this, &Camera::OnKeyPressedCallback, "CamKeyPressed");
-		EventController::SubscribeToEvent(EventType::KeyReleased, this, &Camera::OnKeyReleasedCallback, "CamKeyReleased");
+
 		EventController::SubscribeToEvent(EventType::MouseWheelScrolled, this, &Camera::OnMouseScrolledCallback, "CamMouseScrolled");
 		EventController::SubscribeToEvent(EventType::WindowResized, this, &Camera::OnWindowResizedCallback, "CamWindowResized");
 	}
 
 	Camera::~Camera()
 	{
-		EventController::UnsubscribeFromEvent(EventType::KeyPressed, "CamKeyPressed");
-		EventController::UnsubscribeFromEvent(EventType::KeyReleased, "CamKeyReleased");
 		EventController::UnsubscribeFromEvent(EventType::MouseWheelScrolled, "CamMouseScrolled");
 		EventController::UnsubscribeFromEvent(EventType::WindowResized, "CamWindowResized");
 	}
@@ -44,12 +41,6 @@ namespace Pear
 				break;
 			case GLFW_KEY_D:
 				this->move_right = true;
-				break;
-			case GLFW_KEY_Q:
-				this->rotate_left = true;
-				break;
-			case GLFW_KEY_E:
-				this->rotate_right = true;
 				break;
 			default: 
 				break;
@@ -73,12 +64,6 @@ namespace Pear
 			break;
 		case GLFW_KEY_D:
 			this->move_right = false;
-			break;
-		case GLFW_KEY_Q:
-			this->rotate_left = false;
-			break;
-		case GLFW_KEY_E:
-			this->rotate_right = false;
 			break;
 		default:
 			break;
@@ -110,6 +95,21 @@ namespace Pear
 		return true;
 	}
 
+	void Camera::SetIsControllable(const bool new_is_controllable)
+	{
+		if (new_is_controllable)
+		{
+			EventController::SubscribeToEvent(EventType::KeyPressed, this, &Camera::OnKeyPressedCallback, "CamKeyPressed");
+			EventController::SubscribeToEvent(EventType::KeyReleased, this, &Camera::OnKeyReleasedCallback, "CamKeyReleased");
+		}
+		else
+		{
+			EventController::UnsubscribeFromEvent(EventType::KeyPressed, "CamKeyPressed");
+			EventController::UnsubscribeFromEvent(EventType::KeyReleased, "CamKeyReleased");
+		}
+		this->is_controllable = new_is_controllable;
+	}
+
 	void Camera::SetProjection(const float left, const float right, const float bottom, const float top)
 	{
 		this->projection_matrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
@@ -118,44 +118,31 @@ namespace Pear
 
 	void Camera::OnUpdate()
 	{
-		if(this->move_up)
+		if (this->is_controllable)
 		{
-			this->position.x += -sin(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
-			this->position.y += cos(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
-		}
-		if(this->move_down)
-		{
-			this->position.x -= -sin(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
-			this->position.y -= cos(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
-		}
-		if(this->move_left)
-		{
-			this->position.x -= cos(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
-			this->position.y -= sin(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
-		}
-		if(this->move_right)
-		{
-			this->position.x += cos(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
-			this->position.y += sin(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
-		}
-		if(this->rotate_left)
-		{
-			this->rotation += this->rotation_speed * this->time_step;
-		}
-		if(this->rotate_right)
-		{
-			this->rotation -= this->rotation_speed * this->time_step;
-		}
-
-		if (this->rotation > 180.0f)
-		{
-			this->rotation -= 360.0f;
-		}
-		else if (this->rotation <= -180.0f)
-		{
-			this->rotation += 360.0f;
+			if (this->move_up)
+			{
+				this->position.x += -sin(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
+				this->position.y += cos(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
+			}
+			if (this->move_down)
+			{
+				this->position.x -= -sin(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
+				this->position.y -= cos(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
+			}
+			if (this->move_left)
+			{
+				this->position.x -= cos(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
+				this->position.y -= sin(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
+			}
+			if (this->move_right)
+			{
+				this->position.x += cos(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
+				this->position.y += sin(glm::radians(this->rotation)) * this->transform_speed * this->time_step;
+			}
 		}
 		RecalculateViewMatrix();
+		this->view_projection_matrix = this->projection_matrix * this->view_matrix;
 		this->transform_speed = this->zoom;
 	}
 

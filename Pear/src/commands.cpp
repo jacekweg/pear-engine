@@ -2,7 +2,7 @@
 #include "utils/logging.hpp"
 
 #include "commands.hpp"
-#include "physics/aabb.hpp"
+#include "physics/rectangle.hpp"
 #include "graphics/vertex_buffer.hpp"
 #include "events/event_controller.hpp"
 #include "audio/audio.hpp"
@@ -24,7 +24,7 @@ namespace Pear
 		EventController::UnsubscribeFromEvent(EventType::WindowResized, "ViewportCallback");
 	}
 
-	void Commands::StartScene(Camera& camera, const float new_time_step)
+	void Commands::StartFrame(Camera& camera, const float new_time_step)
 	{
 		shader->Bind();
 		shader->SetUniformMat4(camera.GetViewProjectionMatrix(), "view_projection");
@@ -37,7 +37,7 @@ namespace Pear
 		time_step = new_time_step;
 	}
 
-	void Commands::EndScene()
+	void Commands::EndFrame()
 	{
 		Particles::OnUpdate(time_step);
 		physics_space->OnUpdate(time_step);
@@ -144,11 +144,11 @@ namespace Pear
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	std::shared_ptr<CollisionObject> Commands::CreatePhysicsRectangle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color,
+	std::shared_ptr<CollisionObject> Commands::CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color,
 		const glm::vec2& force, const float restitution, const float slow_down_factor,
 		const bool has_shadow, const bool is_kinematic)
 	{
-		auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<AABB>(pos, size, color, has_shadow));
+		auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<Rectangle>(pos, size, color, has_shadow));
 		box->GetCollisionObject()->SetIsKinematic(is_kinematic);
 		box->GetCollisionObject()->SetAcceleration(force);
 		box->GetCollisionObject()->SetRestitution(restitution);
@@ -158,11 +158,11 @@ namespace Pear
 		return box->GetCollisionObject();
 	}
 
-	std::shared_ptr<CollisionObject> Commands::CreatePhysicsRectangle(const glm::vec2& pos, const glm::vec2& size,
+	std::shared_ptr<CollisionObject> Commands::CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size,
 		const std::shared_ptr<Texture>& texture, const glm::vec2& force, const float restitution, const float slow_down_factor,
 		const bool has_shadow, const bool is_kinematic)
 	{
-		auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<AABB>(pos, size, texture, has_shadow));
+		auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<Rectangle>(pos, size, texture, has_shadow));
 		box->GetCollisionObject()->SetIsKinematic(is_kinematic);
 		box->GetCollisionObject()->SetAcceleration(force);
 		box->GetCollisionObject()->SetRestitution(restitution);
@@ -170,6 +170,56 @@ namespace Pear
 		physics_objects.emplace_back(box);
 		physics_space->AddCollisionObject(box->GetCollisionObject());
 		return box->GetCollisionObject();
+	}
+
+	void Commands::RemovePhysicsObject(const std::shared_ptr<CollisionObject>& object)
+	{
+		auto erased = std::erase_if(physics_objects, 
+			[&](const std::shared_ptr<PhysicsObject>& physics_object)
+			{
+				return physics_object->GetCollisionObject() == object;
+			}
+		);
+		LOG("Erased {} from physics_objects", erased)
+
+		physics_space->RemoveCollisionObject(object);
+	}
+
+	std::shared_ptr<CollisionObject> Commands::CreateTrigger(const glm::vec2& pos, const glm::vec2& size,
+		const glm::vec4& color, const bool has_shadow)
+	{
+		auto obj = CreatePhysicsObject(pos, size, color, { 0.0f, 0.0f }, 0.0f, 1.0f, has_shadow, false);
+		obj->SetIsTrigger(true);
+		return obj;
+	}
+
+	std::shared_ptr<CollisionObject> Commands::CreateTrigger(const glm::vec2& pos, const glm::vec2& size,
+		const std::shared_ptr<Texture>& texture, const bool has_shadow)
+	{
+		auto obj = CreatePhysicsObject(pos, size, texture, { 0.0f, 0.0f }, 0.0f, 1.0f, has_shadow, false);
+		obj->SetIsTrigger(true);
+		return obj;
+	}
+
+	void Commands::RemoveTrigger(const std::shared_ptr<CollisionObject>& trigger)
+	{
+		RemovePhysicsObject(trigger);
+	}
+
+	std::shared_ptr<CollisionObject> Commands::CreatePlayer(const glm::vec2& size,
+		const glm::vec4& color, const float slow_down_factor, const bool has_shadow)
+	{
+		auto obj = CreatePhysicsObject({ 0.0f, 0.0f }, size, color, { 0.0f, 0.0f }, 0.5f, slow_down_factor, has_shadow, true);
+		obj->SetIsControllable(true);
+		return obj;
+	}
+
+	std::shared_ptr<CollisionObject> Commands::CreatePlayer(const glm::vec2& size,
+		const std::shared_ptr<Texture>& texture, const float slow_down_factor, const bool has_shadow)
+	{
+		auto obj = CreatePhysicsObject({ 0.0f, 0.0f }, size, texture, { 0.0f, 0.0f }, 0.5f, slow_down_factor, has_shadow, true);
+		obj->SetIsControllable(true);
+		return obj;
 	}
 
 	std::unique_ptr<Sound> Commands::LoadSoundFromFile(const std::string& path)
@@ -234,7 +284,7 @@ namespace Pear
 
 	void Commands::StartParticles()
 	{
-		Particles::Start(100);
+		Particles::Start(300);
 	}
 
 	void MessageCallback(
