@@ -78,7 +78,6 @@ namespace Pear
 					* rotate(glm::mat4(1.0f), shadow_rotation, { 0.0f, 0.0f, 1.0f })
 					* scale(glm::mat4(1.0f), { shadow_size.x, shadow_size.y, 1.0f });
 
-				glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
 				glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_ZERO, GL_ZERO);
 				shadow_shader->Bind();
 				shadow_shader->SetUniformMat4(transform, "transform");
@@ -93,7 +92,6 @@ namespace Pear
 				translate(glm::mat4(1.0f), { pos.x, pos.y, 0.0f })
 				* scale(glm::mat4(1.0f), { size, size, 1.0f });
 
-			glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
 			glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_ONE, GL_ZERO);
 
 			light_shader->Bind();

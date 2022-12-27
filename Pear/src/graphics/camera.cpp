@@ -15,7 +15,6 @@ namespace Pear
 	{
 		this->view_projection_matrix = this->projection_matrix * this->view_matrix;
 
-
 		EventController::SubscribeToEvent(EventType::MouseWheelScrolled, this, &Camera::OnMouseScrolledCallback, "CamMouseScrolled");
 		EventController::SubscribeToEvent(EventType::WindowResized, this, &Camera::OnWindowResizedCallback, "CamWindowResized");
 	}

@@ -87,6 +87,7 @@ namespace Pear
 		inline static std::unique_ptr<PhysicsSpace> physics_space{};
 
 		inline static std::unique_ptr<Lighting> lighting{};
+		inline static std::vector<std::function<void()>> text_func_queue{};
 
 		inline static float time_step{};
 	};

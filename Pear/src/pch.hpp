@@ -37,6 +37,7 @@
 #include <glm/trigonometric.hpp>
 
 #include <glm/common.hpp>
+#include <glm/gtx/common.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/compatibility.hpp>
 #include <glm/ext/scalar_constants.hpp>

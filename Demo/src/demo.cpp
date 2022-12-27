@@ -20,17 +20,6 @@ Demo::Demo()
 	this->asteroid_texture = Pear::Commands::LoadTextureFromFile("res/textures/asteroid.png");
 	this->background_texture = Pear::Commands::LoadTextureFromFile("res/textures/background.png");
 
-	//Pear::Commands::CreatePhysicsObject(
-	//	{ 2.5f, -2.0f },
-	//	{ 2.0f, 0.5f },
-	//	{ 0.43f, 0.54f, 0.56f, 1.0f },
-	//	{ 0.0f, 0.0f },
-	//	0.0f,
-	//	0.0f,
-	//	false,
-	//	false
-	//);
-
 	this->asteroids.emplace_back(Pear::Commands::CreatePhysicsObject(
 		{ 3.5f, 0.5f },
 		{ 0.5f, 0.5f },
@@ -156,7 +145,7 @@ Demo::Demo()
 	this->background_sound->Loop(true);
 	//this->background_sound->Play();
 
-	Pear::Commands::SubscribeToEvent(Pear::EventType::KeyPressed, this, &Demo::SoundPlayCallback, "SoundCallback");
+	Pear::Commands::SubscribeToEvent(Pear::EventType::KeyPressed, this, &Demo::KeyPressCallback, "SoundCallback");
 	Pear::Commands::SubscribeToEvent(Pear::EventType::KeyReleased, this, &Demo::KeyReleaseCallback, "SoundCallback");
 }
 
@@ -179,73 +168,53 @@ void Demo::OnUpdate(const float time_step)
 
 	Commands::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 
-	//Commands::DrawShadowRectangle(
-	//	{ 2.0f * -glm::cos(time) + 5.0f, -0.5f, 0.0f },
-	//	{ 0.5f, 0.5f },
-	//	{ 0.87f, 0.23f, 0.27f, 1.0f },
-	//	glm::pi<float>() * glm::cos(time)
-	//);
-
-	//Commands::DrawLightSource({ 2.0f * glm::cos(time) + 0.5f, -3.0f }, 2.0f, { 1.0f, 0.0f, 1.0f });
 	Commands::DrawLightSource({ 4.5f, 0.5f }, 3.0f, { 0.0f, 1.0f, 1.0f });
 	Commands::DrawLightSource({ 12.5f, -5.5f }, 3.0f, { 1.0f, 1.0f, 0.0f });
 	Commands::DrawLightSource({ -3.5f, 1.5f }, 5.0f, { 0.5f, 0.6f, 0.1f });
 
 	Commands::DrawRectangle({ 0.0f, 0.0f, -0.9f }, { 50.0f, 50.0f }, background_texture, 0.6f, 2.0f);
 
-	//Commands::DrawRectangle({ -0.9f, -1.0f, -0.1f }, { 1.0f, 1.0f }, asteroid_texture, 0.3f);
+	if (glm::fmod(time, 1.0f) < 0.5f)
+	{
+		Commands::DrawText("This is sample text", { 0.0f, 0.0f }, 1.0f, { 1.0f, 1.0f, 1.0f });
+	}
 
-	Commands::DrawText("This is sample text", { 25.0f, 25.0f }, 1.0f, { 1.0f, 1.0f, 1.0f });
+	Commands::DrawText("This is sample text 2", { -0.5f, 0.5f }, 1.0f, { 1.0f, 1.0f, 1.0f });
+
+
+	glm::vec2 position{};
+	glm::vec2 velocity{};
 
 	if (this->up)
 	{
-		Commands::DrawParticle({
-		.position = { player->GetPosition().x + (Random::Generate() - 0.5f) * 0.3f, player->GetPosition().y - 0.25f},
-		.velocity = {0.0f, -0.5f},
-		.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
-		.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
-		.start_size = { 0.2f, 0.2f },
-		.end_size = {0.1f, 0.1f},
-		.rotation = 0.5f,
-		.life_time = 1.0f
-		});
-		this->player->SetRotation(0.0f);
+		position = { player->GetPosition().x + (Random::Generate() - 0.5f) * 0.3f, player->GetPosition().y - 0.25f };
+		velocity = { 0.0f, -0.5f };
+		player->SetRotation(0.0f);
 	}
 	else if (this->down)
 	{
-		Commands::DrawParticle({
-		.position = { player->GetPosition().x + (Random::Generate() - 0.5f) * 0.3f, player->GetPosition().y + 0.25f},
-		.velocity = {0.0f, 0.5f},
-		.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
-		.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
-		.start_size = { 0.2f, 0.2f },
-		.end_size = {0.1f, 0.1f},
-		.rotation = 0.5f,
-		.life_time = 1.0f
-		});
-		this->player->SetRotation(glm::radians(-180.f));
-
+		position = { player->GetPosition().x + (Random::Generate() - 0.5f) * 0.3f, player->GetPosition().y + 0.25f };
+		velocity = { 0.0f, 0.5f };
+		player->SetRotation(glm::radians(-180.f));
 	}
 	else if (this->left)
 	{
-		Commands::DrawParticle({
-		.position = { player->GetPosition().x + 0.25f, player->GetPosition().y + (Random::Generate() - 0.5f) * 0.3f},
-		.velocity = {0.5f, 0.0f},
-		.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
-		.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
-		.start_size = { 0.2f, 0.2f },
-		.end_size = {0.1f, 0.1f},
-		.rotation = 0.5f,
-		.life_time = 1.0f
-		});
-		this->player->SetRotation(glm::radians(90.f));
-
+		position = { player->GetPosition().x + 0.25f, player->GetPosition().y + (Random::Generate() - 0.5f) * 0.3f };
+		velocity = { 0.5f, 0.0f };
+		player->SetRotation(glm::radians(90.f));
 	}
 	else if (this->right)
 	{
+		position = { player->GetPosition().x - 0.25f, player->GetPosition().y + (Random::Generate() - 0.5f) * 0.3f };
+		velocity = { -0.5f, 0.0f };
+		player->SetRotation(glm::radians(-90.f));
+	}
+
+	if (this->up || this->down || this->left || this->right)
+	{
 		Commands::DrawParticle({
-		.position = { player->GetPosition().x - 0.25f, player->GetPosition().y + (Random::Generate() - 0.5f) * 0.3f},
-		.velocity = {-0.5f, 0.0f},
+		.position = position,
+		.velocity = velocity,
 		.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
 		.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
 		.start_size = { 0.2f, 0.2f },
@@ -253,8 +222,6 @@ void Demo::OnUpdate(const float time_step)
 		.rotation = 0.5f,
 		.life_time = 1.0f
 		});
-		this->player->SetRotation(glm::radians(-90.f));
-
 	}
 
 	for (const auto& asteroid : asteroids)
@@ -265,7 +232,24 @@ void Demo::OnUpdate(const float time_step)
 
 }
 
-bool Demo::SoundPlayCallback(const Pear::EventData data)
+void Demo::CreateProjectile(const glm::vec2& position, const glm::vec2& size, const glm::vec2& velocity, const float rotation) const
+{
+	const auto obj = Pear::Commands::CreatePhysicsObject(
+		position,
+		size,
+		{ 0.93f, 0.54f, 0.16f, 1.0f },
+		velocity,
+		1.0f,
+		1.0f
+	);
+	obj->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& col_obj) {
+		Pear::Commands::RemovePhysicsObject(col_obj);
+		});
+	this->player->SetRotation(rotation);
+	this->short_sound->Restart();
+}
+
+bool Demo::KeyPressCallback(const Pear::EventData data)
 {
 	if (const int keycode = data.i32[0]; keycode == GLFW_KEY_F)
 	{
@@ -274,75 +258,23 @@ bool Demo::SoundPlayCallback(const Pear::EventData data)
 	}
 	else if (keycode == GLFW_KEY_RIGHT)
 	{
-		const auto obj = Pear::Commands::CreatePhysicsObject(
-			{ player->GetPosition().x + 0.5f, player->GetPosition().y},
-			{ 0.15f, 0.05f, },
-			{ 0.93f, 0.54f, 0.16f, 1.0f },
-			{ 20.0f, 0.0f },
-			1.0f,
-			1.0f
-		);
-		obj->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& col_obj)
-			{
-				Pear::Commands::RemovePhysicsObject(col_obj);
-			});
-		this->player->SetRotation(glm::radians(-90.f));
-		this->short_sound->Restart();
-
+		CreateProjectile({ player->GetPosition().x + 0.5f, player->GetPosition().y }, 
+			{ 0.15f, 0.05f }, { 20.0f, 0.0f }, glm::radians(-90.f));
 	}
 	else if (keycode == GLFW_KEY_LEFT)
 	{
-		const auto obj = Pear::Commands::CreatePhysicsObject(
-			{ player->GetPosition().x - 0.5f, player->GetPosition().y },
-			{ 0.15f, 0.05f, },
-			{ 0.93f, 0.54f, 0.16f, 1.0f },
-			{ -20.0f, 0.0f },
-			1.0f,
-			1.0f
-		);
-		obj->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& col_obj)
-			{
-				Pear::Commands::RemovePhysicsObject(col_obj);
-			});
-		this->player->SetRotation(glm::radians(90.f));
-		this->short_sound->Restart();
-
+		CreateProjectile({ player->GetPosition().x - 0.5f, player->GetPosition().y }, 
+			{ 0.15f, 0.05f }, { -20.0f, 0.0f }, glm::radians(90.f));
 	}
 	else if (keycode == GLFW_KEY_UP)
 	{
-		const auto obj = Pear::Commands::CreatePhysicsObject(
-			{ player->GetPosition().x, player->GetPosition().y + 0.5f },
-			{ 0.05f, 0.15f },
-			{ 0.93f, 0.54f, 0.16f, 1.0f },
-			{ 0.0f, 20.0f },
-			1.0f,
-			1.0f
-		);
-		obj->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& col_obj)
-			{
-				Pear::Commands::RemovePhysicsObject(col_obj);
-			});
-		this->player->SetRotation(glm::radians(0.0f));
-		this->short_sound->Restart();
-
+		CreateProjectile({ player->GetPosition().x, player->GetPosition().y + 0.5f }, 
+			{ 0.05f, 0.15f }, { 0.0f, 20.0f }, glm::radians(0.0f));
 	}
 	else if (keycode == GLFW_KEY_DOWN)
 	{
-		const auto obj = Pear::Commands::CreatePhysicsObject(
-			{ player->GetPosition().x, player->GetPosition().y - 0.5f },
-			{ 0.05f, 0.15f },
-			{ 0.93f, 0.54f, 0.16f, 1.0f },
-			{ 0.0f, -20.0f },
-			1.0f,
-			1.0f
-		);
-		obj->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& col_obj)
-			{
-				Pear::Commands::RemovePhysicsObject(col_obj);
-			});
-		this->player->SetRotation(glm::radians(180.0f));
-		this->short_sound->Restart();
-
+		CreateProjectile({ player->GetPosition().x, player->GetPosition().y - 0.5f }, 
+			{ 0.05f, 0.15f }, { 0.0f, -20.0f }, glm::radians(180.0f));
 	}
 	else if (keycode == GLFW_KEY_W)
 	{

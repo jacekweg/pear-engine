@@ -48,6 +48,12 @@ namespace Pear
 			object->OnUpdate(time_step);
 		}
 		Lighting::DrawLighting();
+
+		for (const auto& text_func : text_func_queue)
+		{
+			text_func();
+		}
+		text_func_queue.clear();
 	}
 
 	void Commands::SetClearColor(const glm::vec4 color)
@@ -87,7 +93,8 @@ namespace Pear
 		shader->SetUniformFloat(1.0f, "tiling_factor");
 		empty_texture->Bind(0);
 
-		const auto transform = translate(glm::mat4(1.0f), pos) * scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		const auto transform = translate(glm::mat4(1.0f), pos)
+			* scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		shader->SetUniformMat4(transform, "transform");
 		vertex_array->Bind();
 
@@ -241,7 +248,8 @@ namespace Pear
 
 	void Commands::DrawText(const std::string& text, const glm::vec2& pos, const float scale, const glm::vec3& color)
 	{
-		Text::Render(text, pos, scale, color);
+		auto new_text_func = [text, pos, scale, color] { return Text::Render(text, pos, scale, color); };
+		text_func_queue.emplace_back(new_text_func);
 	}
 
 	bool Commands::SubscribeToEvent(const EventType type, const Event::Func& callback, const std::string& name)

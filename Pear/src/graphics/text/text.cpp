@@ -86,14 +86,18 @@ namespace Pear
         const int width = Controller::GetInstance().GetWindow().GetWidth();
         const int height = Controller::GetInstance().GetWindow().GetHeight();
 
-        const glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+        const glm::mat4 projection = translate(glm::mat4(1.0f), { pos + 1.0f, -0.99f })
+            * glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+
 
         text_shader->Bind();
         text_shader->SetUniformMat4(projection, "projection");
-
         text_shader->SetUniformFloat3(color, "text_color");
+
         glActiveTexture(GL_TEXTURE0);
         text_vertex_array->Bind();
+
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         float shift = pos.x;
 
@@ -126,5 +130,6 @@ namespace Pear
         }
         text_vertex_array->Unbind();
         glBindTexture(GL_TEXTURE_2D, 0);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }

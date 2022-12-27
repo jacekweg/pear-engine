@@ -13,9 +13,11 @@ public:
 
 	void OnUpdate(float time_step) override;
 
-	[[nodiscard]] bool SoundPlayCallback(Pear::EventData data);
+	[[nodiscard]] bool KeyPressCallback(Pear::EventData data);
 	[[nodiscard]] bool KeyReleaseCallback(Pear::EventData data);
 
+private:
+	void CreateProjectile(const glm::vec2& position, const glm::vec2& size, const glm::vec2& velocity, float rotation) const;
 private:
 	Pear::Camera camera{};
 
