@@ -7,6 +7,7 @@ namespace Pear
 	{
 	public:
 		VertexBuffer(const float* vertices, uint32_t size);
+		explicit VertexBuffer(uint32_t size);
 		~VertexBuffer();
 		VertexBuffer(const VertexBuffer&) = delete;
 		VertexBuffer& operator=(const VertexBuffer&) = delete;

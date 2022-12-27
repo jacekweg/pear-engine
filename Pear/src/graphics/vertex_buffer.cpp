@@ -14,6 +14,13 @@ namespace Pear
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 
+	VertexBuffer::VertexBuffer(const uint32_t size)
+	{
+		glCreateBuffers(1, &this->render_id);
+		glBindBuffer(GL_ARRAY_BUFFER, this->render_id);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+	}
+
 	VertexBuffer::~VertexBuffer()
 	{
 		glDeleteBuffers(1, &this->render_id);
@@ -26,7 +33,7 @@ namespace Pear
 
 	void VertexBuffer::Unbind() const
 	{
-		ASSERT(this->render_id, "Vertex buffer was not bound!")
+		ASSERT(this->render_id, "Vertex buffer was not created!")
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }

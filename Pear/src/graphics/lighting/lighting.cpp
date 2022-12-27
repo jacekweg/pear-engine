@@ -108,28 +108,4 @@ namespace Pear
 		shadows.clear();
 		lights.clear();
 	}
-
-	void Lighting::DrawLights()
-	{
-		glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-		glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_ONE, GL_DST_ALPHA);
-		glClear(GL_DEPTH_BUFFER_BIT);
-
-		for (const auto& [pos, size, color] : lights)
-		{
-			/* draw lights */
-			const auto transform_light =
-				translate(glm::mat4(1.0f), { pos.x, pos.y, 0.0f})
-				* scale(glm::mat4(1.0f), { size, size, 1.0f });
-
-			light_shader->Bind();
-			light_shader->SetUniformFloat3(color, "u_color");
-			light_shader->SetUniformMat4(transform_light, "u_matrix");
-			light_shader->SetUniformMat4(view_projection, "u_projection");
-			light_vertex_array->Bind();
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-			glClear(GL_DEPTH_BUFFER_BIT);
-
-		}
-	}
 }

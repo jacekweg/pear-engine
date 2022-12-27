@@ -15,7 +15,6 @@ namespace Pear
 		static void AddShadowSource(const glm::vec3& pos, const glm::vec2& size, float rotation);
 
 		static void DrawLighting();
-		static void DrawLights();
 
 		static void SetViewProjection(glm::mat4 mat);
 	private:

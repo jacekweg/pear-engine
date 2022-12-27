@@ -1,0 +1,63 @@
+﻿  autofit.c
+  ftbase.c
+  ftbbox.c
+  ftbdf.c
+  ftbitmap.c
+  ftcid.c
+  ftfstype.c
+  ftgasp.c
+  ftglyph.c
+  ftgxval.c
+  ftinit.c
+  ftmm.c
+  ftotval.c
+  ftpatent.c
+  ftpfr.c
+  ftstroke.c
+  ftsynth.c
+  fttype1.c
+  ftwinfnt.c
+  bdf.c
+  ftcache.c
+  cff.c
+  type1cid.c
+  dlgwrap.c
+  ftgzip.c
+  ftlzw.c
+  pcf.c
+  pfr.c
+  psaux.c
+  pshinter.c
+  psmodule.c
+  raster.c
+  sfnt.c
+  smooth.c
+  sdf.c
+  svg.c
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\psaux\t1decode.c(1996,23): warning C4267: '=': conversion from 'size_t' to 'FT_Int', possible loss of data (compiling source file ..\..\..\src\psaux\psaux.c)
+  truetype.c
+  type1.c
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\sfnt\sfdriver.c(859,13): warning C4267: '=': conversion from 'size_t' to 'FT_UInt', possible loss of data (compiling source file ..\..\..\src\sfnt\sfnt.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\sfnt\sfdriver.c(1011,36): warning C4244: 'function': conversion from '__int64' to 'const unsigned int', possible loss of data (compiling source file ..\..\..\src\sfnt\sfnt.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\psaux\psintrp.c(1005,25): warning C4267: '=': conversion from 'size_t' to 'FT_Fast', possible loss of data (compiling source file ..\..\..\src\psaux\psaux.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\smooth\ftgrays.c(1980,20): warning C4267: '+=': conversion from 'size_t' to 'TCoord', possible loss of data (compiling source file ..\..\..\src\smooth\smooth.c)
+  type42.c
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\sdf\ftsdf.c(2528): warning C4701: potentially uninitialized local variable 'nearest_point' used
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\sdf\ftsdf.c(2854): warning C4701: potentially uninitialized local variable 'nearest_point' used
+  winfnt.c
+  ftdebug.c
+  ftsystem.c
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\sfnt\ttsvg.c(272): warning C4701: potentially uninitialized local variable 'mid_doc' used
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(276,48): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(297,55): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(329,62): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(359,19): warning C4267: '=': conversion from 'size_t' to 'FT_UInt', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(568,56): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(577,55): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(586,58): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(595,60): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1driver.c(605,55): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1load.c(1771,64): warning C4244: '=': conversion from '__int64' to 'FT_Int', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type1\t1load.c(1941,36): warning C4244: '=': conversion from '__int64' to 'FT_Int', possible loss of data (compiling source file ..\..\..\src\type1\type1.c)
+D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\src\type42\t42parse.c(870,62): warning C4244: '=': conversion from '__int64' to 'FT_Int', possible loss of data (compiling source file ..\..\..\src\type42\type42.c)
+  freetype.vcxproj -> D:\dev\C++\FreeTypeTest\FreeTypeTest\lib\freetype\objs\x64\Debug Static\freetype.lib

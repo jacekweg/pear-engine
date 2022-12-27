@@ -23,6 +23,7 @@
     <ClInclude Include="src\graphics\lighting\lighting.hpp" />
     <ClInclude Include="src\graphics\particles\particles.hpp" />
     <ClInclude Include="src\graphics\texture.hpp" />
+    <ClInclude Include="src\graphics\text\text.hpp" />
     <ClInclude Include="src\gui\imgui_instance.hpp" />
     <ClInclude Include="src\input\keyboard_input.hpp" />
     <ClInclude Include="src\input\mouse_input.hpp" />
@@ -55,6 +56,7 @@
     <ClCompile Include="src\graphics\lighting\lighting.cpp" />
     <ClCompile Include="src\graphics\particles\particles.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
+    <ClCompile Include="src\graphics\text\text.cpp" />
     <ClCompile Include="src\gui\imgui_instance.cpp" />
     <ClCompile Include="src\input\keyboard_input.cpp" />
     <ClCompile Include="src\input\mouse_input.cpp" />
@@ -142,7 +144,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>lib\miniaudio;lib\stb;lib\glm;lib\glfw\include;lib\imgui;lib\glad\include;src;$(SolutionDir)App\src;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lib\freetype\include;lib\miniaudio;lib\stb;lib\glm;lib\glfw\include;lib\imgui;lib\glad\include;src;$(SolutionDir)App\src;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -154,6 +156,7 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>$(SolutionDir)bin\FreeType-Debug Static\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,7 +169,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>lib\miniaudio;lib\stb;lib\glm;lib\glfw\include;lib\imgui;lib\glad\include;src;$(SolutionDir)App\src;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lib\freetype\include;lib\miniaudio;lib\stb;lib\glm;lib\glfw\include;lib\imgui;lib\glad\include;src;$(SolutionDir)App\src;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -176,6 +179,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)bin\FreeType-Release Static\freetype.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

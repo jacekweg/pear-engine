@@ -5,6 +5,7 @@
 #include "controller.hpp"
 #include "audio/audio.hpp"
 #include "events/event_controller.hpp"
+#include "graphics/text/text.hpp"
 #include "gui/imgui_instance.hpp"
 #include "input/keyboard_input.hpp"
 #include "input/mouse_input.hpp"

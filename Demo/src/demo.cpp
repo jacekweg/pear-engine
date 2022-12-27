@@ -2,6 +2,7 @@
 
 #include "demo.hpp"
 
+#include "graphics/text/text.hpp"
 #include "utils/logging.hpp"
 #include "utils/random.hpp"
 
@@ -193,6 +194,8 @@ void Demo::OnUpdate(const float time_step)
 	Commands::DrawRectangle({ 0.0f, 0.0f, -0.9f }, { 50.0f, 50.0f }, background_texture, 0.6f, 2.0f);
 
 	//Commands::DrawRectangle({ -0.9f, -1.0f, -0.1f }, { 1.0f, 1.0f }, asteroid_texture, 0.3f);
+
+	Commands::DrawText("This is sample text", { 25.0f, 25.0f }, 1.0f, { 1.0f, 1.0f, 1.0f });
 
 	if (this->up)
 	{

@@ -57,6 +57,8 @@ namespace Pear
 		static std::unique_ptr<Sound> LoadSoundFromFile(const std::string& path);
 		static std::shared_ptr<Texture> LoadTextureFromFile(const std::string& path);
 
+		static void DrawText(const std::string& text, const glm::vec2& pos, float scale, const glm::vec3& color);
+
 		template <typename I, typename F>
 		static bool SubscribeToEvent(const EventType type, I* instance, const F& callback, const std::string& name)
 		{

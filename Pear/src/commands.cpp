@@ -3,6 +3,7 @@
 
 #include "commands.hpp"
 #include "physics/rectangle.hpp"
+#include "graphics/text/text.hpp"
 #include "graphics/vertex_buffer.hpp"
 #include "events/event_controller.hpp"
 #include "audio/audio.hpp"
@@ -17,6 +18,7 @@ namespace Pear
 		StartParticles();
 		StartPhysics();
 		Lighting::Start();
+		Text::Start();
 	}
 
 	void Commands::End()
@@ -46,7 +48,6 @@ namespace Pear
 			object->OnUpdate(time_step);
 		}
 		Lighting::DrawLighting();
-
 	}
 
 	void Commands::SetClearColor(const glm::vec4 color)
@@ -80,6 +81,8 @@ namespace Pear
 
 	void Commands::DrawRectangle(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color)
 	{
+		shader->Bind();
+
 		shader->SetUniformFloat4(color, "square_color");
 		shader->SetUniformFloat(1.0f, "tiling_factor");
 		empty_texture->Bind(0);
@@ -99,6 +102,8 @@ namespace Pear
 
 	void Commands::DrawRectangle(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color, const float rotation)
 	{
+		shader->Bind();
+
 		shader->SetUniformFloat4(color, "square_color");
 		empty_texture->Bind(0);
 
@@ -129,6 +134,8 @@ namespace Pear
 	void Commands::DrawRectangle(const glm::vec3& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture, const float rotation,
 	                           const float tiling_factor, const glm::vec4& tint_color)
 	{
+		shader->Bind();
+
 		shader->SetUniformFloat4(tint_color, "square_color");
 		shader->SetUniformFloat(tiling_factor, "tiling_factor");
 		texture->Bind(0);
@@ -232,6 +239,11 @@ namespace Pear
 		return std::make_shared<Texture>(path);
 	}
 
+	void Commands::DrawText(const std::string& text, const glm::vec2& pos, const float scale, const glm::vec3& color)
+	{
+		Text::Render(text, pos, scale, color);
+	}
+
 	bool Commands::SubscribeToEvent(const EventType type, const Event::Func& callback, const std::string& name)
 	{
 		return EventController::SubscribeToEvent(type, callback, name);
@@ -309,8 +321,9 @@ namespace Pear
 #endif
 
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		LOG("Vendor: {}", reinterpret_cast<const char*>(glGetString(GL_VENDOR)))
 			LOG("Renderer: {}", reinterpret_cast<const char*>(glGetString(GL_RENDERER)))

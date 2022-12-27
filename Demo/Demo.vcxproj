@@ -58,12 +58,12 @@
       <PreprocessorDefinitions>GLFW_INCLUDE_NONE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Pear\lib\glfw\include;$(SolutionDir)Pear\lib\glm;$(SolutionDir)Pear\lib\miniaudio;$(SolutionDir)Pear\src;$(SolutionDir)Pear\lib\glad\include;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Pear\lib\freetype\include;$(SolutionDir)Pear\lib\glfw\include;$(SolutionDir)Pear\lib\glm;$(SolutionDir)Pear\lib\miniaudio;$(SolutionDir)Pear\src;$(SolutionDir)Pear\lib\glad\include;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>libcmtd.lib;</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;libcmt.lib;</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -75,13 +75,14 @@
       <PreprocessorDefinitions>GLFW_INCLUDE_NONE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Pear\lib\glfw\include;$(SolutionDir)Pear\lib\glm;$(SolutionDir)Pear\lib\miniaudio;$(SolutionDir)Pear\src;$(SolutionDir)Pear\lib\glad\include;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Pear\lib\freetype\include;$(SolutionDir)Pear\lib\glfw\include;$(SolutionDir)Pear\lib\glm;$(SolutionDir)Pear\lib\miniaudio;$(SolutionDir)Pear\src;$(SolutionDir)Pear\lib\glad\include;$(SolutionDir)Pear\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;libcmt.lib;</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -101,6 +102,8 @@
     <None Include="res\shaders\light_vertex.glsl" />
     <None Include="res\shaders\shadow_fragment.glsl" />
     <None Include="res\shaders\shadow_vertex.glsl" />
+    <None Include="res\shaders\text_fragment.glsl" />
+    <None Include="res\shaders\text_vertex.glsl" />
     <None Include="res\shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
