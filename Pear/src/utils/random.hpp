@@ -19,6 +19,11 @@ namespace Pear
 			return static_cast<float>(distribution(engine)) / static_cast<float>(std::numeric_limits<uint32_t>::max());
 		}
 
+		static float Generate(const float min, const float max)
+		{
+			return min + Generate() * (max - min);
+		}
+
 	private:
 		inline static std::mt19937 engine;
 		inline static std::uniform_int_distribution<uint32_t> distribution;

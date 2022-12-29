@@ -5,7 +5,7 @@ namespace Pear
 {
     constexpr float COLLISION_EPSILON = 0.001f;
 
-	void Solver::Solve(std::vector<Collision>& collisions) const
+	void CollisionSolver::Solve(std::vector<Collision>& collisions) const
 	{
 		for (const auto& [body_a, body_b, collision_info] : collisions)
 		{
@@ -54,5 +54,26 @@ namespace Pear
             if (body_b->GetIsControllable())
                 body_b->SetPosition(body_b->GetPosition() + separation);
 		}
+	}
+
+	void DirectionSolver::Solve(std::vector<Collision>& collisions) const
+	{
+        for (const auto& [body_a, body_b, collision_info] : collisions)
+        {
+            glm::vec2 relative_velocity = body_b->GetVelocity() - body_a->GetVelocity();
+            const float velocity_along_normal = dot(relative_velocity, collision_info.normal);
+
+            if (body_a->GetIsKinematic())
+            {
+	            const auto acc = body_a->GetAcceleration();
+                body_a->SetAcceleration({ acc.x * collision_info.normal.x, acc.y * collision_info.normal.y });
+            }
+
+            if (body_b->GetIsKinematic())
+            {
+                const auto acc = body_b->GetAcceleration();
+                body_b->SetAcceleration({ acc.x * collision_info.normal.x, acc.y * collision_info.normal.y });
+            }
+        }
 	}
 }

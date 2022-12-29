@@ -10,6 +10,8 @@
 
 #include <glad/glad.h>
 
+#include "utils/random.hpp"
+
 namespace Pear
 {
 	void Commands::Start()
@@ -42,10 +44,14 @@ namespace Pear
 	void Commands::EndFrame()
 	{
 		Particles::OnUpdate(time_step);
-		physics_space->OnUpdate(time_step);
-		for (const auto& object : physics_objects)
+
+		if (should_update_physics)
 		{
-			object->OnUpdate(time_step);
+			physics_space->OnUpdate(time_step);
+			for (const auto& object : physics_objects)
+			{
+				object->OnUpdate(time_step);
+			}
 		}
 		Lighting::DrawLighting();
 
@@ -177,30 +183,36 @@ namespace Pear
 		const bool has_shadow, const bool is_kinematic)
 	{
 		auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<Rectangle>(pos, size, texture, has_shadow));
+
 		box->GetCollisionObject()->SetIsKinematic(is_kinematic);
 		box->GetCollisionObject()->SetAcceleration(force);
 		box->GetCollisionObject()->SetRestitution(restitution);
 		box->SetSlowDownFactor(slow_down_factor);
+
 		physics_objects.emplace_back(box);
 		physics_space->AddCollisionObject(box->GetCollisionObject());
+
 		return box->GetCollisionObject();
 	}
 
 	void Commands::RemovePhysicsObject(const std::shared_ptr<CollisionObject>& object)
 	{
-		auto erased = std::erase_if(physics_objects, 
-			[&](const std::shared_ptr<PhysicsObject>& physics_object)
-			{
-				return physics_object->GetCollisionObject() == object;
-			}
+		std::erase_if(physics_objects, 
+		              [&](const std::shared_ptr<PhysicsObject>& physics_object)
+		              {
+			              return physics_object->GetCollisionObject() == object;
+		              }
 		);
-		LOG("Erased {} from physics_objects", erased)
-
 		physics_space->RemoveCollisionObject(object);
 	}
 
+	void Commands::UpdatePhysics(const bool should_update)
+	{
+		should_update_physics = should_update;
+	}
+
 	std::shared_ptr<CollisionObject> Commands::CreateTrigger(const glm::vec2& pos, const glm::vec2& size,
-		const glm::vec4& color, const bool has_shadow)
+	                                                         const glm::vec4& color, const bool has_shadow)
 	{
 		auto obj = CreatePhysicsObject(pos, size, color, { 0.0f, 0.0f }, 0.0f, 1.0f, has_shadow, false);
 		obj->SetIsTrigger(true);
@@ -296,10 +308,21 @@ namespace Pear
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
+	float Commands::RandomNumber()
+	{
+		return Random::Generate();
+	}
+
+	float Commands::RandomNumber(const float min, const float max)
+	{
+		return Random::Generate(min, max);
+	}
+
 	void Commands::StartPhysics()
 	{
 		physics_space = std::make_unique<PhysicsSpace>();
-		physics_space->AddSolver(std::make_unique<Solver>());
+		physics_space->AddSolver(std::make_unique<DirectionSolver>());
+		physics_space->AddSolver(std::make_unique<CollisionSolver>());
 	}
 
 	void Commands::StartParticles()

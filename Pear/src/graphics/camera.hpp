@@ -30,6 +30,12 @@ namespace Pear
 		[[nodiscard]] float GetTimeStep() const { return this->time_step; }
 		void SetTimeStep(const float new_time_step) { this->time_step = new_time_step; }
 
+		[[nodiscard]] float GetMaxZoom() const { return this->max_zoom; }
+		void SetMaxZoom(const float new_max_zoom) { this->max_zoom = new_max_zoom; }
+
+		[[nodiscard]] float GetMinZoom() const { return this->min_zoom; }
+		void SetMinZoom(const float new_min_zoom) { this->min_zoom = new_min_zoom; }
+
 		[[nodiscard]] bool GetIsControllable() const { return this->is_controllable; }
 		void SetIsControllable(bool new_is_controllable);
 
@@ -48,6 +54,8 @@ namespace Pear
 		float aspect_ratio;
 		float rotation = 0.0f;
 		float zoom = 2.5f; // was 1.0f
+		float max_zoom = 30.0f;
+		float min_zoom = 0.25f;
 
 		float time_step = 0.0f;
 

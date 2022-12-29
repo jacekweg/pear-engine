@@ -46,8 +46,8 @@ namespace Pear
 			if (this->callback)
 				this->callback(collision, time_step);
 
-			collision.body_a->CollisionCallback(collision.body_a);
-			collision.body_b->CollisionCallback(collision.body_b);
+			collision.body_a->CollisionCallback(collision.body_a, collision.body_b);
+			collision.body_b->CollisionCallback(collision.body_b, collision.body_a);
 		}
 	}
 

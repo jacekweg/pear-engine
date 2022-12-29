@@ -19,7 +19,7 @@ namespace Pear
             return;
         }
 
-        const std::string font_name = "res/fonts/arial.ttf";
+        const std::string font_name = "res/fonts/joystix_monospace.ttf";
 
         FT_Face face;
         if (FT_New_Face(ft, font_name.c_str(), 0, &face)) 

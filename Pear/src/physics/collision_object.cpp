@@ -65,10 +65,11 @@ namespace Pear
 		this->collision_callback = new_callback;
 	}
 
-	void CollisionObject::CollisionCallback(const std::shared_ptr<CollisionObject>& collision_object) const
+	void CollisionObject::CollisionCallback(const std::shared_ptr<CollisionObject>& this_object,
+		const std::shared_ptr<CollisionObject>& second_object) const
 	{
 		if(this->collision_callback)
-			this->collision_callback(collision_object);
+			this->collision_callback(this_object, second_object);
 	}
 
 	void CollisionObject::SetCollisionInfo(const CollisionPoints new_collision_info)
@@ -185,6 +186,11 @@ namespace Pear
 				this->AddForce({ added_force, 0.0f });
 			}
 		}
+	}
+
+	void CollisionObject::SwapSize()
+	{
+		std::swap(this->collision_info.half_width, this->collision_info.half_height);
 	}
 
 	bool CollisionObject::OnKeyPressedCallback(const EventData data)

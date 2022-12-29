@@ -24,7 +24,8 @@ namespace Pear
 	class CollisionObject
 	{
 	public:
-		typedef std::function<void(const std::shared_ptr<CollisionObject>& collision_object)> CollisionFunc;
+		typedef std::function<void(const std::shared_ptr<CollisionObject>& this_object,
+			const std::shared_ptr<CollisionObject>& second_object)> CollisionFunc;
 
 		[[nodiscard]] bool GetIsTrigger() const;
 		void SetIsTrigger(bool new_is_trigger);
@@ -41,7 +42,8 @@ namespace Pear
 		[[nodiscard]] CollisionFunc GetOnCollisionCallback();
 		void SetOnCollisionCallback(const CollisionFunc& new_callback);
 
-		void CollisionCallback(const std::shared_ptr<CollisionObject>& collision_object) const;
+		void CollisionCallback(const std::shared_ptr<CollisionObject>& this_object,
+			const std::shared_ptr<CollisionObject>& second_object) const;
 
 		void SetCollisionInfo(CollisionPoints new_collision_info);
 		[[nodiscard]] CollisionPoints GetCollisionInfo() const;
@@ -69,6 +71,8 @@ namespace Pear
 		void SetRotation(float new_rotation);
 
 		void UpdatePosition(float time_step);
+
+		void SwapSize();
 
 		bool OnKeyPressedCallback(EventData data);
 		bool OnKeyReleasedCallback(EventData data);

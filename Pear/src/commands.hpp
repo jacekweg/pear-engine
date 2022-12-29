@@ -42,10 +42,14 @@ namespace Pear
 		static void DrawShadowRectangle(const glm::vec3& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture, float rotation);
 
 		static std::shared_ptr<CollisionObject> CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color,
-			const glm::vec2& force, float restitution = 0.5f, float slow_down_factor = 1.0f, bool has_shadow = true, bool is_kinematic = true);
+			const glm::vec2& force, float restitution = 0.5f, float slow_down_factor = 1.0f,
+			bool has_shadow = true, bool is_kinematic = true);
 		static std::shared_ptr<CollisionObject> CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture,
-			const glm::vec2& force, float restitution = 0.5f, float slow_down_factor = 1.0f, bool has_shadow = true, bool is_kinematic = true);
+			const glm::vec2& force, float restitution = 0.5f, float slow_down_factor = 1.0f,
+			bool has_shadow = true, bool is_kinematic = true);
 		static void RemovePhysicsObject(const std::shared_ptr<CollisionObject>& object);
+
+		static void UpdatePhysics(bool should_update);
 
 		static std::shared_ptr<CollisionObject> CreateTrigger(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color, bool has_shadow = true);
 		static std::shared_ptr<CollisionObject> CreateTrigger(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture, bool has_shadow = true);
@@ -74,6 +78,9 @@ namespace Pear
 		static void SetWindowName(const std::string& new_name);
 
 		static void DrawWireFrames(bool draw);
+
+		static float RandomNumber();
+		static float RandomNumber(float min, float max);
 	private:
 		static void StartGraphics();
 		static void StartPhysics();
@@ -90,5 +97,7 @@ namespace Pear
 		inline static std::vector<std::function<void()>> text_func_queue{};
 
 		inline static float time_step{};
+
+		inline static bool should_update_physics{};
 	};
 }

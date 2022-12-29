@@ -13,22 +13,43 @@ public:
 
 	void OnUpdate(float time_step) override;
 
-	[[nodiscard]] bool KeyPressCallback(Pear::EventData data);
-	[[nodiscard]] bool KeyReleaseCallback(Pear::EventData data);
+	[[nodiscard]] bool OnStartKeyPressCallback(Pear::EventData data);
 
+	[[nodiscard]] bool OnRestartKeyPressCallback(Pear::EventData data);
+
+	[[nodiscard]] bool OnPlayKeyPressCallback(Pear::EventData data);
+	[[nodiscard]] bool OnPlayKeyReleaseCallback(Pear::EventData data);
 private:
+	void CreateLevel();
+	void CreateLights(int amount);
+	void CreateAsteroids(int amount);
+	void CreateCollectibles(int amount);
+	void CreateCollectible();
+	void CreatePlayer(bool is_controllable);
+	void CreateLevelBounds(int width, int height) const;
 	void CreateProjectile(const glm::vec2& position, const glm::vec2& size, const glm::vec2& velocity, float rotation) const;
+
+	void DrawText(float time) const;
+	void PushAsteroids() const;
+	void DrawLights();
+	void MovePlayer();
+	void AddScore();
 private:
 	Pear::Camera camera{};
 
+	std::unique_ptr<Pear::Sound> short_sound{}, background_sound{};
 	std::shared_ptr<Pear::Texture> player_texture{}, asteroid_texture{}, background_texture{};
 
-	std::unique_ptr<Pear::Sound> short_sound{}, background_sound{};
-
 	std::shared_ptr<Pear::CollisionObject> player{};
-
-	bool up{}, down{}, left{}, right{};
-	int score{};
-
 	std::vector< std::shared_ptr<Pear::CollisionObject>> asteroids{};
+	std::vector<std::tuple<glm::vec2, float, glm::vec3>> lights{};
+
+	enum PlayerDirection{ Vertical, Horizontal };
+	PlayerDirection player_direction{};
+
+	int score{};
+	int level_width = 100, level_height = 50;
+	int number_of_asteroids = 50, number_of_lights = 25, number_of_collectibles = 50;
+	bool up{}, down{}, left{}, right{};
+	bool is_start_menu = true, is_playing{}, is_game_over{};
 };

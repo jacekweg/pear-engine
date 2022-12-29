@@ -30,10 +30,10 @@ namespace Pear
 		light_vertex_array = std::make_unique<VertexArray>();
 		float light_sprite_vertices[4 * 4] =
 		{
-			 10.0f,  10.0f,  10.0f,  10.0f,
-			-10.0f,  10.0f, -10.0f,  10.0f,
-			 10.0f, -10.0f,  10.0f, -10.0f,
-			-10.0f, -10.0f, -10.0f, -10.0f
+			 50.0f,  50.0f,  50.0f,  50.0f,
+			-50.0f,  50.0f, -50.0f,  50.0f,
+			 50.0f, -50.0f,  50.0f, -50.0f,
+			-50.0f, -50.0f, -50.0f, -50.0f
 		};
 		auto light_vertices_size = static_cast<uint32_t>(sizeof light_sprite_vertices);
 		auto light_vb = std::make_shared<VertexBuffer>(light_sprite_vertices, light_vertices_size);

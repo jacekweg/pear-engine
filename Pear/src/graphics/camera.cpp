@@ -75,8 +75,8 @@ namespace Pear
 	{
 		const auto y_offset = static_cast<float>(data.d64);
 		this->zoom -= y_offset * 0.25f;
-		this->zoom = glm::max(this->zoom, 0.25f);
-		this->zoom = glm::min(this->zoom, 30.0f);
+		this->zoom = glm::max(this->zoom, this->min_zoom);
+		this->zoom = glm::min(this->zoom, this->max_zoom);
 		SetProjection(-this->aspect_ratio * this->zoom, this->aspect_ratio * this->zoom, -this->zoom, this->zoom);
 
 		LOG("Camera zoom {}", zoom)
