@@ -233,7 +233,7 @@ namespace Pear
 	}
 
 	std::shared_ptr<CollisionObject> Commands::CreatePlayer(const glm::vec2& size,
-		const glm::vec4& color, const float slow_down_factor, const bool has_shadow)
+	                                                        const glm::vec4& color, const float slow_down_factor, const bool has_shadow)
 	{
 		auto obj = CreatePhysicsObject({ 0.0f, 0.0f }, size, color, { 0.0f, 0.0f }, 0.5f, slow_down_factor, has_shadow, true);
 		obj->SetIsControllable(true);

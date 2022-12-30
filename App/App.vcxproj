@@ -110,6 +110,8 @@
     <None Include="res\shaders\light_vertex.glsl" />
     <None Include="res\shaders\shadow_fragment.glsl" />
     <None Include="res\shaders\shadow_vertex.glsl" />
+    <None Include="res\shaders\text_fragment.glsl" />
+    <None Include="res\shaders\text_vertex.glsl" />
     <None Include="res\shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>

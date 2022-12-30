@@ -9,7 +9,7 @@ namespace Pear
 	bool MouseInput::MouseScrolledCallback(const EventData data)
 	{
 		double y = data.d64;
-		LOG("Mouse scrolled: {} offset", y)
+		//LOG("Mouse scrolled: {} offset", y)
 
 		return true;
 	}

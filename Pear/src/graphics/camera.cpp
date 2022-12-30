@@ -79,7 +79,6 @@ namespace Pear
 		this->zoom = glm::min(this->zoom, this->max_zoom);
 		SetProjection(-this->aspect_ratio * this->zoom, this->aspect_ratio * this->zoom, -this->zoom, this->zoom);
 
-		LOG("Camera zoom {}", zoom)
 		return true;
 	}
 

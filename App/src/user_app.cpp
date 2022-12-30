@@ -54,10 +54,10 @@ UserApp::UserApp()
 		1.0f,
 		1.0f
 	);
-	test->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& obj)
-		{
-			obj->SetAcceleration(-obj->GetAcceleration() * 0.5f);
-		});
+	//test->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& obj)
+	//	{
+	//		obj->SetAcceleration(-obj->GetAcceleration() * 0.5f);
+	//	});
 
 	//movable = Pear::Commands::CreatePhysicsObject(
 	//	{ 0.0f, 1.0f },

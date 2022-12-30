@@ -19,13 +19,18 @@ Demo::Demo()
 	this->asteroid_texture = Pear::Commands::LoadTextureFromFile("res/textures/asteroid.png");
 	this->background_texture = Pear::Commands::LoadTextureFromFile("res/textures/background_2.png");
 
+	this->coin_textures.emplace_back(Pear::Commands::LoadTextureFromFile("res/textures/coin.png"));
+	this->coin_textures.emplace_back(Pear::Commands::LoadTextureFromFile("res/textures/coin_2.png"));
+	this->coin_textures.emplace_back(Pear::Commands::LoadTextureFromFile("res/textures/coin_3.png"));
+	this->coin_textures.emplace_back(Pear::Commands::LoadTextureFromFile("res/textures/coin_4.png"));
+
 	this->asteroids.reserve(this->number_of_asteroids);
 	this->lights.reserve(this->number_of_lights);
 
 	CreateLevel();
 	CreatePlayer(false);
 
-	this->short_sound->SetVolume(0.3f);
+	this->short_sound->SetVolume(0.1f);
 
 	this->background_sound->SetVolume(0.4f);
 	this->background_sound->Loop(true);
@@ -97,6 +102,12 @@ void Demo::CreateProjectile(const glm::vec2& position, const glm::vec2& size, co
 		});
 	this->player->SetRotation(rotation);
 	this->short_sound->Restart();
+}
+
+void Demo::RestartLevel()
+{
+	CreateLights(this->number_of_lights);
+	CreateAsteroids(this->number_of_asteroids);
 }
 
 void Demo::DrawText(const float time) const
@@ -390,6 +401,8 @@ void Demo::CreateCollectibles(const int amount)
 
 void Demo::CreateCollectible()
 {
+	static uint64_t texture_idx = 0;
+
 	const float limit_x = static_cast<float>(this->level_width) / 2.0f - 1.0f;
 	const float limit_y = static_cast<float>(this->level_height) / 2.0f - 1.0f;
 
@@ -399,19 +412,21 @@ void Demo::CreateCollectible()
 	const auto trigger = Pear::Commands::CreateTrigger(
 		{ pos_x, pos_y },
 		{ 0.2f, 0.2f },
-		{ 0.87f, 0.98f, 0.01f, 1.0f },
+		this->coin_textures[texture_idx++],
 		false
 	);
+
+	texture_idx = texture_idx % this->coin_textures.size();
+
 	trigger->SetOnCollisionCallback([&](const std::shared_ptr<Pear::CollisionObject>& trigger_obj,
 		const std::shared_ptr<Pear::CollisionObject>& other_obj)
 	{
 		if (!other_obj->GetIsControllable())
 			return;
 
-		static bool got_score{};
-		Pear::Commands::RemoveTrigger(trigger_obj);
-		if (!got_score)
+		if (static bool got_score{}; !got_score)
 		{
+			Pear::Commands::RemoveTrigger(trigger_obj);
 			AddScore();
 			CreateCollectible();
 			got_score = !got_score;
@@ -503,7 +518,7 @@ bool Demo::OnStartKeyPressCallback(const Pear::EventData data)
 		this->score = 0;
 
 		CreatePlayer(true);
-		CreateLevel();
+		RestartLevel();
 
 		Pear::Commands::SubscribeToEvent(Pear::EventType::KeyPressed, this, &Demo::OnPlayKeyPressCallback, "PlayCallback");
 		Pear::Commands::SubscribeToEvent(Pear::EventType::KeyReleased, this, &Demo::OnPlayKeyReleaseCallback, "PlayCallback");

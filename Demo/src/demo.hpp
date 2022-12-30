@@ -29,19 +29,23 @@ private:
 	void CreateLevelBounds(int width, int height) const;
 	void CreateProjectile(const glm::vec2& position, const glm::vec2& size, const glm::vec2& velocity, float rotation) const;
 
-	void DrawText(float time) const;
-	void PushAsteroids() const;
+	void RestartLevel();
+
+	void AddScore();
 	void DrawLights();
 	void MovePlayer();
-	void AddScore();
+	void PushAsteroids() const;
+	void DrawText(float time) const;
 private:
 	Pear::Camera camera{};
 
 	std::unique_ptr<Pear::Sound> short_sound{}, background_sound{};
 	std::shared_ptr<Pear::Texture> player_texture{}, asteroid_texture{}, background_texture{};
+	std::vector<std::shared_ptr<Pear::Texture>> coin_textures{};
 
 	std::shared_ptr<Pear::CollisionObject> player{};
-	std::vector< std::shared_ptr<Pear::CollisionObject>> asteroids{};
+	std::vector<std::shared_ptr<Pear::CollisionObject>> asteroids{};
+	std::vector<std::shared_ptr<Pear::CollisionObject>> collectibles{};
 	std::vector<std::tuple<glm::vec2, float, glm::vec3>> lights{};
 
 	enum PlayerDirection{ Vertical, Horizontal };
