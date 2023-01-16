@@ -61,6 +61,21 @@ namespace Pear
 		ImGui::Begin("Stats");
 		ImGui::Text("Delta time: %.4fs (%.2fms)", static_cast<double>(time_step), static_cast<double>(time_step * 1000.0f));
 		ImGui::Text("FPS: %.2f", static_cast<double>(1.0f / time_step));
+#ifdef BENCHMARK
+		constexpr auto alpha = 0.99;
+		static auto average_time_step = static_cast<double>(time_step * 1000.0f);
+		static auto average_fps = 1.0;
+		static auto number_of_frames = 0;
+
+		number_of_frames++;
+
+		average_time_step = alpha * average_time_step + (1.0 - alpha) * static_cast<double>(time_step * 1000.0f);
+		average_fps = alpha * average_fps + (1.0 - alpha) * static_cast<double>(1.0f / time_step);
+
+		ImGui::Text("Averages");
+		ImGui::Text("Delta time: %.2fms", average_time_step);
+		ImGui::Text("FPS: %.2f", average_fps);
+#endif
 		ImGui::Checkbox("VSync", &enable_vsync);
 		ImGui::Checkbox("Draw wire frames", &draw_wire_frames);
 

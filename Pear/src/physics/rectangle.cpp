@@ -44,7 +44,7 @@ namespace Pear
 		}
 		else if (!this->has_shadow && this->texture)
 		{
-			Commands::DrawRectangle({ position, 0.0f }, size, this->texture, rotation);
+			Commands::DrawRectangle({ { position, 0.0f }, size, this->texture, rotation });
 		}
 		else if (!this->has_shadow && !this->texture)
 		{
@@ -54,7 +54,6 @@ namespace Pear
 		if (this->slow_down && this->slow_down_factor < 1.0f)
 		{
 			this->collision_object->SetVelocity(this->collision_object->GetVelocity() * (1.0f - time_step) * this->slow_down_factor);
-			//this->collision_object->SetAcceleration(this->collision_object->GetAcceleration() * (1.0f - time_step) * this->slow_down_factor * 0.01f);
 		}
 	}
 

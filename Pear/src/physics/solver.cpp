@@ -65,7 +65,7 @@ namespace Pear
 
             if (body_a->GetIsKinematic())
             {
-	            const auto acc = body_a->GetAcceleration();
+                const auto acc = body_a->GetAcceleration();
                 body_a->SetAcceleration({ acc.x * collision_info.normal.x, acc.y * collision_info.normal.y });
             }
 

@@ -41,6 +41,9 @@
     <Image Include="res\textures\alpha.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\textures\test.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\audio\background.mp3" />

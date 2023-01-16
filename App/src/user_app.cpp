@@ -11,22 +11,9 @@ UserApp::UserApp()
 
 	this->camera.SetIsControllable(true);
 
-	this->checker_texture = Pear::Commands::LoadTextureFromFile("res/textures/test.png");
 	this->alpha_texture = Pear::Commands::LoadTextureFromFile("res/textures/alpha.png");
 
-
-	Pear::Commands::CreatePhysicsObject(
-		{ 2.5f, -2.0f },
-		{ 0.5f, 0.5f }, 
-		{ 0.43f, 0.54f, 0.56f, 1.0f },
-		{ 0.0f, 0.0f },
-		1.0f,
-		0.0f,
-		false,
-		true
-		);
-
-	Pear::Commands::CreatePhysicsObject(
+	Pear::Commands::CreatePhysicsObject({
 		{ 3.5f, 0.5f },
 		{ 0.5f, 0.5f },
 		{ 0.43f, 0.54f, 0.56f, 1.0f },
@@ -35,40 +22,40 @@ UserApp::UserApp()
 		0.0f,
 		false,
 		false
-	);
+	});
 
-	Pear::Commands::CreatePhysicsObject(
+	Pear::Commands::CreatePhysicsObject({
 		{ 2.5f, 3.0f },
 		{ 0.4f, 0.4f },
 		{ 0.43f, 0.54f, 0.56f, 1.0f },
 		{ 0.0f, 0.0f },
 		0.3f,
 		1.0f
-	);
+	});
 
-	const auto test= Pear::Commands::CreatePhysicsObject(
+	const auto test = Pear::Commands::CreatePhysicsObject({
 		{ 2.5f, 1.5f },
 		{ 0.5f, 0.5f },
 		{ 0.83f, 0.54f, 0.56f, 1.0f },
 		{ 0.0f, -1.0f },
 		1.0f,
 		1.0f
-	);
-	//test->SetOnCollisionCallback([](const std::shared_ptr<Pear::CollisionObject>& obj)
-	//	{
-	//		obj->SetAcceleration(-obj->GetAcceleration() * 0.5f);
-	//	});
+	});
+	test->SetOnCollisionCallback([](const auto& obj, const auto& second_obj)
+		{
+			obj->SetAcceleration(-obj->GetAcceleration() * 0.5f);
+		});
 
-	//movable = Pear::Commands::CreatePhysicsObject(
-	//	{ 0.0f, 1.0f },
-	//	{ 0.5f, 0.5f },
-	//	this->checker_texture,
-	//	{ 0.0f, 0.0f },
-	//	1.0f,
-	//	0.5f,
-	//	true
-	//);
-	//movable->SetIsControllable(false);
+	movable = Pear::Commands::CreatePhysicsObject({
+		{ 0.0f, 1.0f },
+		{ 0.5f, 0.5f },
+		this->checker_texture,
+		{ 0.0f, 0.0f },
+		1.0f,
+		0.5f,
+		true
+	});
+	movable->SetIsControllable(false);
 
 	this->short_sound = Pear::Commands::LoadSoundFromFile("res/audio/short.mp3");
 	this->background_sound = Pear::Commands::LoadSoundFromFile("res/audio/background.mp3");
@@ -77,7 +64,7 @@ UserApp::UserApp()
 	
 	this->background_sound->SetVolume(0.4f);
 	this->background_sound->Loop(true);
-	//this->background_sound->Play();
+	this->background_sound->Play();
 
 	Pear::Commands::SubscribeToEvent(Pear::EventType::KeyPressed, this, &UserApp::SoundPlayCallback, "SoundCallback");
 }
@@ -99,6 +86,10 @@ void UserApp::OnUpdate(const float time_step)
 
 	Commands::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 
+	Commands::DrawLightSource({ 4.0f * glm::cos(time) + 5.0f, -0.8f }, 5.0f, { 1.0f, 0.0f, 1.0f });
+	Commands::DrawLightSource({ 6.5f, 0.5f }, 5.0f, { 0.0f, 1.0f, 1.0f });
+	Commands::DrawLightSource({ 3.5f, 0.5f }, 5.0f, { 1.0f, 1.0f, 0.0f });
+
 
 	Commands::DrawShadowRectangle(
 		{ 2.0f * -glm::cos(time) + 5.0f, -0.5f, 0.0f },
@@ -107,11 +98,7 @@ void UserApp::OnUpdate(const float time_step)
 		glm::pi<float>() * glm::cos(time)
 	);
 
-	Commands::DrawLightSource({ 2.0f * glm::cos(time) + 2.5f, -3.0f }, 2.0f, { 1.0f, 0.0f, 1.0f });
-	Commands::DrawLightSource({ 6.5f, 0.5f }, 3.0f, { 0.0f, 1.0f, 1.0f });
-	Commands::DrawLightSource({ 3.5f, 0.5f }, 3.0f, { 1.0f, 1.0f, 0.0f });
-
-	Commands::DrawRectangle({ -0.9f, -1.0f, -0.1f }, { 1.0f, 1.0f }, alpha_texture, 0.3f);
+	Commands::DrawRectangle({ { -0.9f, -1.0f, -0.1f }, { 1.0f, 1.0f }, this->alpha_texture, 0.3f });
 
 	for(int i = 0; i < 9; ++i)
 	{
@@ -127,38 +114,26 @@ void UserApp::OnUpdate(const float time_step)
 		);
 	}
 
-	//Commands::DrawParticle({
-	//	.position = {glm::cos(time) - 2.5f, glm::sin(time) + 0.5f},
-	//	.velocity = {0.0f, 0.2f},
-	//	.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
-	//	.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
-	//	.start_size = { 0.2f, 0.2f },
-	//	.end_size = {0.1f, 0.1f},
-	//	.rotation = 0.5f,
-	//	.life_time = 3.0f
-	//	});
-
-	//Commands::DrawParticle({
-	//.position = {-2.5f, 0.5f},
-	//.velocity = {0.0f, 0.5f},
-	//.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
-	//.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
-	//.start_size = { 0.2f, 0.2f },
-	//.end_size = {0.1f, 0.1f},
-	//.rotation = 0.5f,
-	//.life_time = 3.0f
-	//	});
-
+	Commands::DrawParticle({
+		.position = {glm::cos(time) - 2.5f, glm::sin(time) + 0.5f},
+		.velocity = {0.0f, 0.2f},
+		.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
+		.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
+		.start_size = { 0.2f, 0.2f },
+		.end_size = {0.1f, 0.1f},
+		.rotation = 0.5f,
+		.life_time = 3.0f
+		});
 
 	Commands::DrawParticle({
-	.position = {-5.5f, 0.5f},
-	.velocity = {3.0f, 0.0f},
-	.start_color = {0.96f, 0.91f, 0.22f, 1.0f},
-	.end_color = { 0.21f, 0.48f, 0.65f, 1.0f },
-	.start_size = { 0.3f, 0.3f },
+	.position = {-2.5f, 0.5f},
+	.velocity = {0.0f, 0.5f},
+	.start_color = {0.76f, 0.21f, 0.32f, 1.0f},
+	.end_color = { 0.87f, 0.91f, 0.85f, 1.0f },
+	.start_size = { 0.2f, 0.2f },
 	.end_size = {0.1f, 0.1f},
 	.rotation = 0.5f,
-	.life_time = 2.0f
+	.life_time = 3.0f
 	});
 
 	Commands::EndFrame();

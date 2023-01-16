@@ -10,6 +10,7 @@ namespace Pear
 	public:
 		Solver() = default;
 		virtual ~Solver() = default;
+
 		Solver(const Solver&) = delete;
 		Solver& operator=(const Solver&) = delete;
 		Solver(Solver&&) = delete;
@@ -18,13 +19,13 @@ namespace Pear
 		virtual void Solve(std::vector<Collision>& collisions) const = 0;
 	};
 
-	class CollisionSolver final : public Solver
+	class DirectionSolver final : public Solver
 	{
 	public:
 		void Solve(std::vector<Collision>& collisions) const override;
 	};
 
-	class DirectionSolver final : public Solver
+	class CollisionSolver final : public Solver
 	{
 	public:
 		void Solve(std::vector<Collision>& collisions) const override;

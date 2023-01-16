@@ -13,6 +13,40 @@
 
 namespace Pear
 {
+	struct TextureInfo
+	{
+		const glm::vec3& pos;
+		const glm::vec2& size;
+		const std::shared_ptr<Texture>& texture;
+		float rotation = 0.0f;
+		float tiling_factor = 1.0f;
+		const glm::vec4& tint_color = glm::vec4(1.0f);
+	};
+
+	struct PhysicsTextureInfo
+	{
+		const glm::vec2& pos;
+		const glm::vec2& size;
+		const std::shared_ptr<Texture>& texture;
+		const glm::vec2& force;
+		float restitution = 0.5f;
+		float slow_down_factor = 1.0f;
+		bool has_shadow = true;
+		bool is_kinematic = true;
+	};
+
+	struct PhysicsColorInfo
+	{
+		const glm::vec2& pos;
+		const glm::vec2& size;
+		const glm::vec4& color;
+		const glm::vec2& force;
+		float restitution = 0.5f;
+		float slow_down_factor = 1.0f;
+		bool has_shadow = true;
+		bool is_kinematic = true;
+	};
+
 	class Commands
 	{
 	public:
@@ -27,6 +61,9 @@ namespace Pear
 		static void SetClearColor(glm::vec4 color);
 
 		static void DrawParticle(const ParticleInfo& particle_info);
+		static void DrawShadowRectangle(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color, float rotation);
+		static void DrawShadowRectangle(const glm::vec3& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture, float rotation);
+
 		static void DrawLightSource(const glm::vec2& pos, float size, const glm::vec3& color);
 
 		static void DrawRectangle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
@@ -35,18 +72,10 @@ namespace Pear
 		static void DrawRectangle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color, float rotation);
 		static void DrawRectangle(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color, float rotation);
 
-		static void DrawRectangle(const glm::vec3& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture,
-			float rotation = 0.0f, float tiling_factor = 1.0f, const glm::vec4& tint_color = glm::vec4(1.0f));
+		static void DrawRectangle(const TextureInfo& texture_info);
 
-		static void DrawShadowRectangle(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color, float rotation);
-		static void DrawShadowRectangle(const glm::vec3& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture, float rotation);
-
-		static std::shared_ptr<CollisionObject> CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color,
-			const glm::vec2& force, float restitution = 0.5f, float slow_down_factor = 1.0f,
-			bool has_shadow = true, bool is_kinematic = true);
-		static std::shared_ptr<CollisionObject> CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture,
-			const glm::vec2& force, float restitution = 0.5f, float slow_down_factor = 1.0f,
-			bool has_shadow = true, bool is_kinematic = true);
+		static std::shared_ptr<CollisionObject> CreatePhysicsObject(const PhysicsTextureInfo& physics_info);
+		static std::shared_ptr<CollisionObject> CreatePhysicsObject(const PhysicsColorInfo& physics_info);
 		static void RemovePhysicsObject(const std::shared_ptr<CollisionObject>& object);
 
 		static void UpdatePhysics(bool should_update);
@@ -85,6 +114,9 @@ namespace Pear
 		static void StartGraphics();
 		static void StartPhysics();
 		static void StartParticles();
+
+		static std::shared_ptr<CollisionObject> SetPhysicsAttributes(const std::shared_ptr<PhysicsObject>& box,
+		    const glm::vec2& force, float restitution, float slow_down_factor, bool is_kinematic);
 	private:
 		inline static std::unique_ptr<Shader> shader{};
 		inline static std::unique_ptr<Texture> empty_texture{};
@@ -98,6 +130,6 @@ namespace Pear
 
 		inline static float time_step{};
 
-		inline static bool should_update_physics{};
+		inline static bool should_update_physics = true;
 	};
 }

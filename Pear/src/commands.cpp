@@ -140,13 +140,13 @@ namespace Pear
 	void Commands::DrawShadowRectangle(const glm::vec3& pos, const glm::vec2& size,
 		const std::shared_ptr<Texture>& texture, const float rotation)
 	{
-		DrawRectangle(pos, size, texture, rotation);
+		DrawRectangle({ pos, size, texture, rotation });
 		Lighting::AddShadowSource(pos, size, rotation);
 	}
 
-	void Commands::DrawRectangle(const glm::vec3& pos, const glm::vec2& size, const std::shared_ptr<Texture>& texture, const float rotation,
-	                           const float tiling_factor, const glm::vec4& tint_color)
+	void Commands::DrawRectangle(const TextureInfo& texture_info)
 	{
+		const auto& [pos, size, texture, rotation, tiling_factor, tint_color] = texture_info;
 		shader->Bind();
 
 		shader->SetUniformFloat4(tint_color, "square_color");
@@ -164,44 +164,27 @@ namespace Pear
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	std::shared_ptr<CollisionObject> Commands::CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color,
-		const glm::vec2& force, const float restitution, const float slow_down_factor,
-		const bool has_shadow, const bool is_kinematic)
+	std::shared_ptr<CollisionObject> Commands::CreatePhysicsObject(const PhysicsTextureInfo& physics_info)
 	{
-		auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<Rectangle>(pos, size, color, has_shadow));
-		box->GetCollisionObject()->SetIsKinematic(is_kinematic);
-		box->GetCollisionObject()->SetAcceleration(force);
-		box->GetCollisionObject()->SetRestitution(restitution);
-		box->SetSlowDownFactor(slow_down_factor);
-		physics_objects.emplace_back(box);
-		physics_space->AddCollisionObject(box->GetCollisionObject());
-		return box->GetCollisionObject();
+		const auto& [pos, size, texture, force, restitution, slow_down_factor, has_shadow, is_kinematic] = physics_info;
+		const auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<Rectangle>(pos, size, texture, has_shadow));
+		return SetPhysicsAttributes(box, force, restitution, slow_down_factor, is_kinematic);
 	}
 
-	std::shared_ptr<CollisionObject> Commands::CreatePhysicsObject(const glm::vec2& pos, const glm::vec2& size,
-		const std::shared_ptr<Texture>& texture, const glm::vec2& force, const float restitution, const float slow_down_factor,
-		const bool has_shadow, const bool is_kinematic)
+	std::shared_ptr<CollisionObject> Commands::CreatePhysicsObject(const PhysicsColorInfo& physics_info)
 	{
-		auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<Rectangle>(pos, size, texture, has_shadow));
-
-		box->GetCollisionObject()->SetIsKinematic(is_kinematic);
-		box->GetCollisionObject()->SetAcceleration(force);
-		box->GetCollisionObject()->SetRestitution(restitution);
-		box->SetSlowDownFactor(slow_down_factor);
-
-		physics_objects.emplace_back(box);
-		physics_space->AddCollisionObject(box->GetCollisionObject());
-
-		return box->GetCollisionObject();
+		const auto& [pos, size, color, force, restitution, slow_down_factor, has_shadow, is_kinematic] = physics_info;
+		const auto box = std::dynamic_pointer_cast<PhysicsObject>(std::make_shared<Rectangle>(pos, size, color, has_shadow));
+		return SetPhysicsAttributes(box, force, restitution, slow_down_factor, is_kinematic);
 	}
 
 	void Commands::RemovePhysicsObject(const std::shared_ptr<CollisionObject>& object)
 	{
 		std::erase_if(physics_objects, 
-		              [&](const std::shared_ptr<PhysicsObject>& physics_object)
-		              {
-			              return physics_object->GetCollisionObject() == object;
-		              }
+    [&](const std::shared_ptr<PhysicsObject>& physics_object)
+          {
+              return physics_object->GetCollisionObject() == object;
+          }
 		);
 		physics_space->RemoveCollisionObject(object);
 	}
@@ -214,7 +197,7 @@ namespace Pear
 	std::shared_ptr<CollisionObject> Commands::CreateTrigger(const glm::vec2& pos, const glm::vec2& size,
 	                                                         const glm::vec4& color, const bool has_shadow)
 	{
-		auto obj = CreatePhysicsObject(pos, size, color, { 0.0f, 0.0f }, 0.0f, 1.0f, has_shadow, false);
+		auto obj = CreatePhysicsObject({ pos, size, color, { 0.0f, 0.0f }, 0.0f, 1.0f, has_shadow, false });
 		obj->SetIsTrigger(true);
 		return obj;
 	}
@@ -222,7 +205,7 @@ namespace Pear
 	std::shared_ptr<CollisionObject> Commands::CreateTrigger(const glm::vec2& pos, const glm::vec2& size,
 		const std::shared_ptr<Texture>& texture, const bool has_shadow)
 	{
-		auto obj = CreatePhysicsObject(pos, size, texture, { 0.0f, 0.0f }, 0.0f, 1.0f, has_shadow, false);
+		auto obj = CreatePhysicsObject({ pos, size, texture, { 0.0f, 0.0f }, 0.0f, 1.0f, has_shadow, false });
 		obj->SetIsTrigger(true);
 		return obj;
 	}
@@ -233,9 +216,9 @@ namespace Pear
 	}
 
 	std::shared_ptr<CollisionObject> Commands::CreatePlayer(const glm::vec2& size,
-	                                                        const glm::vec4& color, const float slow_down_factor, const bool has_shadow)
+	    const glm::vec4& color, const float slow_down_factor, const bool has_shadow)
 	{
-		auto obj = CreatePhysicsObject({ 0.0f, 0.0f }, size, color, { 0.0f, 0.0f }, 0.5f, slow_down_factor, has_shadow, true);
+		auto obj = CreatePhysicsObject({ { 0.0f, 0.0f }, size, color, { 0.0f, 0.0f }, 0.5f, slow_down_factor, has_shadow, true });
 		obj->SetIsControllable(true);
 		return obj;
 	}
@@ -243,7 +226,7 @@ namespace Pear
 	std::shared_ptr<CollisionObject> Commands::CreatePlayer(const glm::vec2& size,
 		const std::shared_ptr<Texture>& texture, const float slow_down_factor, const bool has_shadow)
 	{
-		auto obj = CreatePhysicsObject({ 0.0f, 0.0f }, size, texture, { 0.0f, 0.0f }, 0.5f, slow_down_factor, has_shadow, true);
+		auto obj = CreatePhysicsObject({ { 0.0f, 0.0f }, size, texture, { 0.0f, 0.0f }, 0.5f, slow_down_factor, has_shadow, true });
 		obj->SetIsControllable(true);
 		return obj;
 	}
@@ -330,6 +313,18 @@ namespace Pear
 		Particles::Start(300);
 	}
 
+	std::shared_ptr<CollisionObject> Commands::SetPhysicsAttributes(const std::shared_ptr<PhysicsObject>& box,
+	    const glm::vec2& force, const float restitution, const float slow_down_factor, const bool is_kinematic)
+	{
+		box->GetCollisionObject()->SetIsKinematic(is_kinematic);
+		box->GetCollisionObject()->SetAcceleration(force);
+		box->GetCollisionObject()->SetRestitution(restitution);
+		box->SetSlowDownFactor(slow_down_factor);
+		physics_objects.emplace_back(box);
+		physics_space->AddCollisionObject(box->GetCollisionObject());
+		return box->GetCollisionObject();
+	}
+
 	void MessageCallback(
 		[[maybe_unused]] unsigned source,
 		[[maybe_unused]] unsigned type,
@@ -357,8 +352,8 @@ namespace Pear
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		LOG("Vendor: {}", reinterpret_cast<const char*>(glGetString(GL_VENDOR)))
-			LOG("Renderer: {}", reinterpret_cast<const char*>(glGetString(GL_RENDERER)))
-			LOG("OpenGL version: {}\n", reinterpret_cast<const char*>(glGetString(GL_VERSION)))
+		LOG("Renderer: {}", reinterpret_cast<const char*>(glGetString(GL_RENDERER)))
+		LOG("OpenGL version: {}\n", reinterpret_cast<const char*>(glGetString(GL_VERSION)))
 
 			EventController::SubscribeToEvent(EventType::WindowResized, SetViewportCallback, "ViewportCallback");
 
@@ -385,7 +380,7 @@ namespace Pear
 		uint32_t empty_texture_data = 0xffffff;
 		empty_texture = std::make_unique<Texture>(&empty_texture_data);
 
-		shader = std::make_unique<Shader>("res/shaders/vertex.glsl", "res/shaders/fragment.glsl");
+		shader = std::make_unique<Shader>("res/shaders/basic_vertex.glsl", "res/shaders/basic_fragment.glsl");
 		shader->Bind();
 		shader->SetUniformInt(0, "texture_data");
 	}

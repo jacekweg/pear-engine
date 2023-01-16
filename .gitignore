@@ -1,6 +1,8 @@
 # Binaries
 bin/
 int/
+*.lib
+*.pdb
 
 # Visual Studio cache/options directory
 .vs/

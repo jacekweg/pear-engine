@@ -83,6 +83,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>libcmtd.lib;libcmt.lib;</IgnoreSpecificDefaultLibraries>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <ForceSymbolReferences>
+      </ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -97,6 +101,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\shaders\basic_fragment.glsl" />
+    <None Include="res\shaders\basic_vertex.glsl" />
     <None Include="res\shaders\fragment.glsl" />
     <None Include="res\shaders\light_fragment.glsl" />
     <None Include="res\shaders\light_vertex.glsl" />
@@ -108,11 +114,25 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\alpha.png" />
+    <Image Include="res\textures\asteroid.png" />
+    <Image Include="res\textures\background.png" />
+    <Image Include="res\textures\background_2.png" />
+    <Image Include="res\textures\coin.png" />
+    <Image Include="res\textures\coin_2.png" />
+    <Image Include="res\textures\coin_3.png" />
+    <Image Include="res\textures\coin_4.png" />
+    <Image Include="res\textures\spaceship.png" />
     <Image Include="res\textures\test.png" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="res\audio\background.mp3" />
-    <Media Include="res\audio\short.mp3" />
+    <Font Include="res\fonts\arial.ttf" />
+    <Font Include="res\fonts\joystix_monospace.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\audio\explosion.wav" />
+    <Media Include="res\audio\pickup.wav" />
+    <Media Include="res\audio\shoot.wav" />
+    <Media Include="res\audio\thrust.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

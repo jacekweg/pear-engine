@@ -13,8 +13,9 @@ public:
 
 	void OnUpdate(float time_step) override;
 
-	[[nodiscard]] bool OnStartKeyPressCallback(Pear::EventData data);
+	[[nodiscard]] static bool OnFullscreenCallback(Pear::EventData data);
 
+	[[nodiscard]] bool OnStartKeyPressCallback(Pear::EventData data);
 	[[nodiscard]] bool OnRestartKeyPressCallback(Pear::EventData data);
 
 	[[nodiscard]] bool OnPlayKeyPressCallback(Pear::EventData data);
@@ -39,7 +40,7 @@ private:
 private:
 	Pear::Camera camera{};
 
-	std::unique_ptr<Pear::Sound> short_sound{}, background_sound{};
+	std::unique_ptr<Pear::Sound> shoot_sound{}, explosion_sound{}, pickup_sound{}, thrust_sound{};
 	std::shared_ptr<Pear::Texture> player_texture{}, asteroid_texture{}, background_texture{};
 	std::vector<std::shared_ptr<Pear::Texture>> coin_textures{};
 
@@ -52,7 +53,7 @@ private:
 	PlayerDirection player_direction{};
 
 	int score{};
-	int level_width = 100, level_height = 50;
+	int level_width = 200, level_height = 100;
 	int number_of_asteroids = 50, number_of_lights = 25, number_of_collectibles = 50;
 	bool up{}, down{}, left{}, right{};
 	bool is_start_menu = true, is_playing{}, is_game_over{};

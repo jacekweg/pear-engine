@@ -65,7 +65,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
-      <IgnoreSpecificDefaultLibraries>libcmtd.lib;</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;libcmt.lib;</IgnoreSpecificDefaultLibraries>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
@@ -88,6 +88,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;libcmt.lib;</IgnoreSpecificDefaultLibraries>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -117,6 +118,7 @@
   <ItemGroup>
     <Image Include="res\textures\alpha.png" />
     <Image Include="res\textures\checkerboard.png" />
+    <Image Include="res\textures\test.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\audio\background.mp3" />

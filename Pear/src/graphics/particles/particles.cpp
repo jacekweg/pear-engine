@@ -44,6 +44,7 @@ namespace Pear
 	void Particles::RespawnParticle(const ParticleInfo& new_particle_info)
 	{
 		SetFreeParticleSlot();
+		//free_particle_idx = --free_particle_idx % particles.size();
 
 		auto& [particle_info, life_time_left, rotation_dir] = particles[free_particle_idx];
 

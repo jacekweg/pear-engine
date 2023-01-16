@@ -3,6 +3,7 @@
 
 #include "events/event_controller.hpp"
 #include "GLFW/glfw3.h"
+#include "utils/logging.hpp"
 
 namespace Pear
 {
