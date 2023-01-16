@@ -49,9 +49,6 @@
     <Image Include="res\textures\background.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\textures\background_2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\textures\coin.png">
       <Filter>Resource Files</Filter>
     </Image>

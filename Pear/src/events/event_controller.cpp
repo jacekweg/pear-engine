@@ -55,6 +55,6 @@ namespace Pear
 	std::ranges::borrowed_iterator_t<std::vector<std::unique_ptr<Event>>&> EventController::FindEventByName(EventType type, const std::string& event_name)
 	{
 		auto& events = event_entries[static_cast<int>(type)];
-		return std::ranges::find_if(events, [&](const std::unique_ptr<Event>& obj){ return obj->GetEventName() == event_name; });
+		return std::ranges::find_if(events, [&](const std::unique_ptr<Event>& obj){ return obj->GetIdentifierName() == event_name; });
 	}
 }
